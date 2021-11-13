@@ -12,7 +12,7 @@
  *     <li>The output image is the image the composes all the sub-images together</li>
  *     <li>A target pixel is a pixel in the target image, which corresponds to multiple pixels in the output image</li>
  * </ul>
- *
+ * <p>
  * The algorithm used for generating a photomosaic is:
  * <ul>
  *     <li>Load all candidate images and resize them to consistent dimensions</li>
@@ -37,6 +37,23 @@
  *     </ul>
  *     <li>Combine all of the chosen sub-images to generate the output image</li>
  * </ul>
+ * <p>
+ * TODO: Add details of the public fields of the object
  */
 public class Photomosaic {
+    /**
+     * Create a new Photomosaic object with none of the processing done yet.
+     * <p>
+     * TODO: come back when data types are determined
+     *
+     * @param targetImage      A String giving the target image to create a photomosaic of
+     * @param candidateImages  A String giving the path to the directory that contains the candidate images
+     * @param subImageX        The width that each subImage will be converted to
+     * @param subImageY        The height that each subImage will be converted to
+     * @param outputImageX     The width of the photomosaic to be produced
+     * @param outputImageY     The height of the photomosaic to be produced
+     * @param backgroundColour The background colour to use in the case of transparent pixels
+     */
+    public Photomosaic(String targetImage, String candidateImages) {
+    }
 }
