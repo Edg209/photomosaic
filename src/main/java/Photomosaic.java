@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -68,10 +69,15 @@ public class Photomosaic {
      * @param backgroundColour The background colour to use in the case of transparent pixels
      */
     public Photomosaic(String targetImage, String candidateImages, Integer subImageX, Integer subImageY, Integer outputImageX, Integer outputImageY) {
+        //We load the target and candidate images
         this.targetImage = new TargetImage(targetImage);
         this.candidateImageSet = new HashSet<>();
+        for (File candidateImageFile : new File(candidateImages).listFiles()) {
+            if (candidateImageFile.isFile()) {
+                this.candidateImageSet.add(new CandidateImage(candidateImageFile.getPath()));
+            }
+        }
         //TODO: Add handling for backgroundColour
-        //TODO: Read all candidate images
         //TODO: Add logic to images to resize, apply background and convert to CIE-Lab
         this.subImageX = subImageX;
         this.subImageY = subImageY;
