@@ -2,6 +2,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -73,7 +74,7 @@ public class Photomosaic {
         //We load the target and candidate images
         this.targetImage = new TargetImage(targetImage);
         this.candidateImageSet = new HashSet<>();
-        for (File candidateImageFile : new File(candidateImages).listFiles()) {
+        for (File candidateImageFile : Objects.requireNonNull(new File(candidateImages).listFiles())) {
             if (candidateImageFile.isFile()) {
                 this.candidateImageSet.add(new CandidateImage(candidateImageFile.getPath(), subImageX, subImageY, backgroundColor));
             }
