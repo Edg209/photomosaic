@@ -7,7 +7,6 @@ import java.io.IOException;
 
 /**
  * CandidateImage is an object that represents a single candidate image for a photomosaic.
- * The data on the individual pixels is in CIE-Lab format.
  *
  * TODO: Add details of fields
  */
@@ -26,6 +25,5 @@ public class CandidateImage {
         g2d.drawImage(bufferedImage, 0, 0, targetX, targetY, null);
         g2d.dispose();
         this.image = processedImage;
-        //TODO: Convert to CIE-Lab
     }
 }

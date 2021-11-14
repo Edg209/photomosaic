@@ -23,23 +23,22 @@ import java.util.Set;
  * <ul>
  *     <li>Load all candidate images and resize them to consistent dimensions</li>
  *     <li>Apply the background color to any transparent pixels</li>
- *     <li>Convert the target image and all candidate images to CIE-Lab format</li>
  *     <li>Determine the size and shape of the sub-image array</li>
  *     <li>Iterate over the sub-images going first left to right then bottom to top:</li>
  *     <ul>
  *         <li>Determine the target pixels corresponding to each pixel in the sub-image</li>
  *         <li>Determine the pixels from the adjacent chosen sub-images that align to these target pixels</li>
- *         <li>For each candidate image, calculate average Delta-E:</li>
+ *         <li>For each candidate image, calculate average distance:</li>
  *         <ul>
  *             <li>For each target pixel that is used for this candidate image:</li>
  *             <ul>
  *                 <li>Determine the relevant pixels in the candidate image and the adjacent chosen sub-images</li>
  *                 <li>Determine the average color of all the corresponding to this target pixel</li>
- *                 <li>Calculate the Delta-E of the target pixel and the average color</li>
+ *                 <li>Calculate the distance between the target pixel and the average color</li>
  *             </ul>
- *             <li>Average each of the Delta-E values of the target pixels for this candidate image</li>
+ *             <li>Average each of the distance values of the target pixels for this candidate image</li>
  *         </ul>
- *         <li>Pick the candidate image with the best average Delta-E as the chosen sub-image</li>
+ *         <li>Pick the candidate image with the best average distance as the chosen sub-image</li>
  *     </ul>
  *     <li>Combine all of the chosen sub-images to generate the output image</li>
  * </ul>
@@ -80,7 +79,6 @@ public class Photomosaic {
             }
         }
         //TODO: Add handling for backgroundColor
-        //TODO: Add logic to images to resize, apply background and convert to CIE-Lab
         this.subImageX = subImageX;
         this.subImageY = subImageY;
         this.outputImageX = outputImageX;

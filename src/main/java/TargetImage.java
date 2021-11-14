@@ -9,6 +9,5 @@ public class TargetImage {
         //TODO: Read from the path
         //TODO: Resize to the chosen dimensions
         //TODO: Apply background color
-        //TODO: Convert to CIE-Lab
     }
 }
