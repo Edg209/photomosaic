@@ -16,6 +16,7 @@
  * The algorithm used for generating a photomosaic is:
  * <ul>
  *     <li>Load all candidate images and resize them to consistent dimensions</li>
+ *     <li>Apply the background colour to any transparent pixels</li>
  *     <li>Convert the target image and all candidate images to CIE-Lab format</li>
  *     <li>Determine the size and shape of the sub-image array</li>
  *     <li>Iterate over the sub-images going first left to right then bottom to top:</li>
@@ -27,7 +28,6 @@
  *             <li>For each target pixel that is used for this candidate image:</li>
  *             <ul>
  *                 <li>Determine the relevant pixels in the candidate image and the adjacent chosen sub-images</li>
- *                 <li>Apply the background colour to any transparent pixels</li>
  *                 <li>Determine the average colour of all the corresponding to this target pixel</li>
  *                 <li>Calculate the Delta-E of the target pixel and the average colour</li>
  *             </ul>
