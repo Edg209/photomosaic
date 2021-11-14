@@ -14,7 +14,7 @@ import java.util.Set;
  *     <li>A candidate image is a single one of the possible images that can be used as a sub-image</li>
  *     <li>A chosen sub-image is a sub-image where one of the candidate images has been calculated as best choice</li>
  *     <li>The sub-image grid is a two dimensional array of all the sub-images</li>
- *     <li>The background colour is the default colour of the image to be used in case of transparency</li>
+ *     <li>The background color is the default color of the image to be used in case of transparency</li>
  *     <li>The output image is the image the composes all the sub-images together</li>
  *     <li>A target pixel is a pixel in the target image, which corresponds to multiple pixels in the output image</li>
  * </ul>
@@ -22,7 +22,7 @@ import java.util.Set;
  * The algorithm used for generating a photomosaic is:
  * <ul>
  *     <li>Load all candidate images and resize them to consistent dimensions</li>
- *     <li>Apply the background colour to any transparent pixels</li>
+ *     <li>Apply the background color to any transparent pixels</li>
  *     <li>Convert the target image and all candidate images to CIE-Lab format</li>
  *     <li>Determine the size and shape of the sub-image array</li>
  *     <li>Iterate over the sub-images going first left to right then bottom to top:</li>
@@ -34,8 +34,8 @@ import java.util.Set;
  *             <li>For each target pixel that is used for this candidate image:</li>
  *             <ul>
  *                 <li>Determine the relevant pixels in the candidate image and the adjacent chosen sub-images</li>
- *                 <li>Determine the average colour of all the corresponding to this target pixel</li>
- *                 <li>Calculate the Delta-E of the target pixel and the average colour</li>
+ *                 <li>Determine the average color of all the corresponding to this target pixel</li>
+ *                 <li>Calculate the Delta-E of the target pixel and the average color</li>
  *             </ul>
  *             <li>Average each of the Delta-E values of the target pixels for this candidate image</li>
  *         </ul>
@@ -62,24 +62,24 @@ public class Photomosaic {
      * <p>
      * TODO: come back when data types are determined
      *
-     * @param targetImage      A String giving the target image to create a photomosaic of
-     * @param candidateImages  A String giving the path to the directory that contains the candidate images
-     * @param subImageX        An Integer giving the width that each subImage will be converted to
-     * @param subImageY        An Integer giving the height that each subImage will be converted to
-     * @param outputImageX     An Integer giving the width of the photomosaic to be produced
-     * @param outputImageY     An Integer giving the height of the photomosaic to be produced
-     * @param backgroundColour The background colour to use in the case of transparent pixels
+     * @param targetImage     A String giving the target image to create a photomosaic of
+     * @param candidateImages A String giving the path to the directory that contains the candidate images
+     * @param subImageX       An Integer giving the width that each subImage will be converted to
+     * @param subImageY       An Integer giving the height that each subImage will be converted to
+     * @param outputImageX    An Integer giving the width of the photomosaic to be produced
+     * @param outputImageY    An Integer giving the height of the photomosaic to be produced
+     * @param backgroundColor The background color to use in the case of transparent pixels
      */
-    public Photomosaic(String targetImage, String candidateImages, Integer subImageX, Integer subImageY, Integer outputImageX, Integer outputImageY, Color backgroundColour) throws IOException {
+    public Photomosaic(String targetImage, String candidateImages, Integer subImageX, Integer subImageY, Integer outputImageX, Integer outputImageY, Color backgroundColor) throws IOException {
         //We load the target and candidate images
         this.targetImage = new TargetImage(targetImage);
         this.candidateImageSet = new HashSet<>();
         for (File candidateImageFile : new File(candidateImages).listFiles()) {
             if (candidateImageFile.isFile()) {
-                this.candidateImageSet.add(new CandidateImage(candidateImageFile.getPath(), subImageX, subImageY, backgroundColour));
+                this.candidateImageSet.add(new CandidateImage(candidateImageFile.getPath(), subImageX, subImageY, backgroundColor));
             }
         }
-        //TODO: Add handling for backgroundColour
+        //TODO: Add handling for backgroundColor
         //TODO: Add logic to images to resize, apply background and convert to CIE-Lab
         this.subImageX = subImageX;
         this.subImageY = subImageY;

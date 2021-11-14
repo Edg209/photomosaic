@@ -19,7 +19,7 @@ public class CandidateImage {
         //We create another bufferedImage for the processed image
         BufferedImage processedImage = new BufferedImage(targetX, targetY,bufferedImage.getType());
         //We scale the image to the desired dimensions using Graphics2D
-        //We also set the background colour using Graphics2d
+        //We also set the background color using Graphics2d
         Graphics2D g2d = processedImage.createGraphics();
         g2d.setBackground(background);
         g2d.drawImage(bufferedImage, 0, 0, targetX, targetY, null);

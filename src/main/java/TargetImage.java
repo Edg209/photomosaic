@@ -8,7 +8,7 @@ public class TargetImage {
     public TargetImage(String path) {
         //TODO: Read from the path
         //TODO: Resize to the chosen dimensions
-        //TODO: Apply background colour
+        //TODO: Apply background color
         //TODO: Convert to CIE-Lab
     }
 }
