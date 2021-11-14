@@ -58,8 +58,6 @@ public class Photomosaic {
 
     /**
      * Create a new Photomosaic object with none of the processing done yet.
-     * <p>
-     * TODO: come back when data types are determined
      *
      * @param targetImage     A String giving the target image to create a photomosaic of
      * @param candidateImages A String giving the path to the directory that contains the candidate images
@@ -68,6 +66,8 @@ public class Photomosaic {
      * @param outputImageX    An Integer giving the width of the photomosaic to be produced
      * @param outputImageY    An Integer giving the height of the photomosaic to be produced
      * @param backgroundColor The background color to use in the case of transparent pixels
+     *
+     * @throws  IOException When reading candidate and image files
      */
     public Photomosaic(String targetImage, String candidateImages, Integer subImageX, Integer subImageY, Integer outputImageX, Integer outputImageY, Color backgroundColor) throws IOException {
         //We load the target and candidate images
@@ -78,7 +78,6 @@ public class Photomosaic {
                 this.candidateImageSet.add(new CandidateImage(candidateImageFile.getPath(), subImageX, subImageY, backgroundColor));
             }
         }
-        //TODO: Add handling for backgroundColor
         this.subImageX = subImageX;
         this.subImageY = subImageY;
         this.outputImageX = outputImageX;
