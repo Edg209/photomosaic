@@ -50,6 +50,9 @@ public class Photomosaic {
     public Integer subImageY;
     public Integer outputImageX;
     public Integer outputImageY;
+    public Integer subImageArrayX;
+    public Integer subImageArrayY;
+    public CandidateImage[][] subImageArray;
 
     /**
      * Create a new Photomosaic object with none of the processing done yet.
@@ -67,12 +70,18 @@ public class Photomosaic {
     public Photomosaic(String targetImage, String candidateImages, Integer subImageX, Integer subImageY, Integer outputImageX, Integer outputImageY) {
         this.targetImage = new TargetImage(targetImage);
         this.candidateImageSet = new HashSet<>();
+        //TODO: Add handling for backgroundColour
         //TODO: Read all candidate images
         //TODO: Add logic to images to resize, apply background and convert to CIE-Lab
         this.subImageX = subImageX;
         this.subImageY = subImageY;
         this.outputImageX = outputImageX;
         this.outputImageY = outputImageY;
-        //TODO: Add calculation of the SubImage array shape and definition of chosenSubImageArray
+        //We want to generate an array large enough to create the full output image
+        //The output image dimensions may not be a nice multiple of the sub image dimensions
+        //Therefore, there may be a bit that "sticks out" over the output image dimensions
+        this.subImageArrayX = (int) Math.ceil(((double) outputImageX)/subImageX);
+        this.subImageArrayY = (int) Math.ceil(((double) outputImageY)/subImageY);
+        this.subImageArray = new CandidateImage[subImageArrayX][subImageArrayY];
     }
 }
