@@ -1,3 +1,6 @@
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Photomosaic is a class which represents a photomosaic and how it is generated.
  * A photomosaic is the combination of multiple sub-images to imitate a single target image.
@@ -41,6 +44,8 @@
  * TODO: Add details of the public fields of the object
  */
 public class Photomosaic {
+    public TargetImage targetImage;
+    Set<CandidateImage> candidateImageSet;
     public Integer subImageX;
     public Integer subImageY;
     public Integer outputImageX;
@@ -60,8 +65,10 @@ public class Photomosaic {
      * @param backgroundColour The background colour to use in the case of transparent pixels
      */
     public Photomosaic(String targetImage, String candidateImages, Integer subImageX, Integer subImageY, Integer outputImageX, Integer outputImageY) {
-        //TODO: Add image parsing for targetImage
-        //TODO: Add parsing of items in candidateImages
+        this.targetImage = new TargetImage(targetImage);
+        this.candidateImageSet = new HashSet<>();
+        //TODO: Read all candidate images
+        //TODO: Add logic to images to resize, apply background and convert to CIE-Lab
         this.subImageX = subImageX;
         this.subImageY = subImageY;
         this.outputImageX = outputImageX;
