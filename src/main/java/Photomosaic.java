@@ -72,7 +72,7 @@ public class Photomosaic {
      */
     public Photomosaic(String targetImage, String candidateImages, Integer subImageX, Integer subImageY, Integer outputImageX, Integer outputImageY, Color backgroundColor) throws IOException {
         //We load the target and candidate images
-        this.targetImage = new TargetImage(targetImage);
+        this.targetImage = new TargetImage(targetImage, backgroundColor);
         this.candidateImageSet = new HashSet<>();
         for (File candidateImageFile : Objects.requireNonNull(new File(candidateImages).listFiles())) {
             if (candidateImageFile.isFile()) {
