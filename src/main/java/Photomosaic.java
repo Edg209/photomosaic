@@ -41,6 +41,11 @@
  * TODO: Add details of the public fields of the object
  */
 public class Photomosaic {
+    public Integer subImageX;
+    public Integer subImageY;
+    public Integer outputImageX;
+    public Integer outputImageY;
+
     /**
      * Create a new Photomosaic object with none of the processing done yet.
      * <p>
@@ -48,12 +53,19 @@ public class Photomosaic {
      *
      * @param targetImage      A String giving the target image to create a photomosaic of
      * @param candidateImages  A String giving the path to the directory that contains the candidate images
-     * @param subImageX        The width that each subImage will be converted to
-     * @param subImageY        The height that each subImage will be converted to
-     * @param outputImageX     The width of the photomosaic to be produced
-     * @param outputImageY     The height of the photomosaic to be produced
+     * @param subImageX        An Integer giving the width that each subImage will be converted to
+     * @param subImageY        An Integer giving the height that each subImage will be converted to
+     * @param outputImageX     An Integer giving the width of the photomosaic to be produced
+     * @param outputImageY     An Integer giving the height of the photomosaic to be produced
      * @param backgroundColour The background colour to use in the case of transparent pixels
      */
-    public Photomosaic(String targetImage, String candidateImages) {
+    public Photomosaic(String targetImage, String candidateImages, Integer subImageX, Integer subImageY, Integer outputImageX, Integer outputImageY) {
+        //TODO: Add image parsing for targetImage
+        //TODO: Add parsing of items in candidateImages
+        this.subImageX = subImageX;
+        this.subImageY = subImageY;
+        this.outputImageX = outputImageX;
+        this.outputImageY = outputImageY;
+        //TODO: Add calculation of the SubImage array shape and definition of chosenSubImageArray
     }
 }
