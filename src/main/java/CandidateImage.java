@@ -12,6 +12,7 @@ import java.io.IOException;
  * TODO: Add details of fields
  */
 public class CandidateImage {
+    public BufferedImage image;
     public CandidateImage(String path, Integer targetX, Integer targetY, Color background) throws IOException {
         //We read the image from the path
         File imageFile = new File(path);
@@ -24,6 +25,7 @@ public class CandidateImage {
         g2d.setBackground(background);
         g2d.drawImage(bufferedImage, 0, 0, targetX, targetY, null);
         g2d.dispose();
+        this.image = processedImage;
         //TODO: Convert to CIE-Lab
     }
 }
