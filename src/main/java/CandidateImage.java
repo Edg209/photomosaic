@@ -11,7 +11,19 @@ import java.io.IOException;
  * TODO: Add details of fields
  */
 public class CandidateImage {
+
     public BufferedImage image;
+
+    /**
+     * Create a new CandidateImage
+     *
+     * @param path A String giving the path to the image to be used
+     * @param targetX An Integer giving the expected width of the image
+     * @param targetY An Integer giving the expected height of the image
+     * @param background A Color that will be used as background to the image
+     * @throws IOException When attempting to read the file containing the image
+     */
+
     public CandidateImage(String path, Integer targetX, Integer targetY, Color background) throws IOException {
         //We read the image from the path
         File imageFile = new File(path);
