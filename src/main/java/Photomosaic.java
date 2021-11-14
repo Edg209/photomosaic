@@ -1,4 +1,6 @@
+import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -68,13 +70,13 @@ public class Photomosaic {
      * @param outputImageY     An Integer giving the height of the photomosaic to be produced
      * @param backgroundColour The background colour to use in the case of transparent pixels
      */
-    public Photomosaic(String targetImage, String candidateImages, Integer subImageX, Integer subImageY, Integer outputImageX, Integer outputImageY) {
+    public Photomosaic(String targetImage, String candidateImages, Integer subImageX, Integer subImageY, Integer outputImageX, Integer outputImageY, Color backgroundColour) throws IOException {
         //We load the target and candidate images
         this.targetImage = new TargetImage(targetImage);
         this.candidateImageSet = new HashSet<>();
         for (File candidateImageFile : new File(candidateImages).listFiles()) {
             if (candidateImageFile.isFile()) {
-                this.candidateImageSet.add(new CandidateImage(candidateImageFile.getPath()));
+                this.candidateImageSet.add(new CandidateImage(candidateImageFile.getPath(), subImageX, subImageY, backgroundColour));
             }
         }
         //TODO: Add handling for backgroundColour
