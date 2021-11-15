@@ -34,8 +34,5 @@ public class TargetImage {
         g2d.drawImage(bufferedImage, 0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), null);
         g2d.dispose();
         this.image = processedImage;
-        //TODO: Read from the path
-        //TODO: Resize to the chosen dimensions
-        //TODO: Apply background color
     }
 }
