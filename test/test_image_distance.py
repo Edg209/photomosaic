@@ -82,6 +82,8 @@ class TestCandidateImageDistanceGrid(TestCase):
         expected_distances = np.array([[0,170],[170,85]])
         cd = CandidateImageDistanceGrid(self.sample_candidate_image, self.sample_target_images)
         cd.calculate()
+        assert cd.grid_shape == (2,2)
+        assert cd.comparison_shape == (1,1)
         assert expected_distances == cd.distance_grid
 
     def test_different_comparison_target_shapes(self):
