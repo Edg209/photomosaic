@@ -4,6 +4,7 @@ import pytest
 import os
 import skimage.io as si
 from photomosaic.image_distance.image_distance import ImageDistance
+from photomosaic.exceptions import InvalidTypeException, InvalidShapeException
 
 class TestImageDistance(TestCase):
     # We load the images from the resoures directory
@@ -14,10 +15,12 @@ class TestImageDistance(TestCase):
     img_3x4_ffffff = si.imread(os.path.join(test_dir, 'resources', '3x4_ffffff.png'))
     img_3x4_black_stripe = si.imread(os.path.join(test_dir, 'resources', '3x4_black_stripe.png'))
     img_3x4_white_stripe = si.imread(os.path.join(test_dir, 'resources', '3x4_white_stripe.png'))
+    img_4x3_000000 = si.imread(os.path.join(test_dir, 'resources', '4x3_000000.png'))
 
     def test_different_shapes(self):
         """Test that two image arrays of different shapes raises the appropriate exception"""
-        raise NotImplementedError
+        with pytest.raises(InvalidShapeException):
+            ImageDistance(self.img_3x4_ffffff, self.img_4x3_000000)
 
     def test_incorrect_dtype(self):
         """Test that an image array of incorrect datatype raises the appropriate exception"""
