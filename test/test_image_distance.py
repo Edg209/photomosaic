@@ -7,7 +7,7 @@ from photomosaic.image_distance.image_distance import ImageDistance
 from photomosaic.exceptions import InvalidTypeException, InvalidShapeException
 
 class TestImageDistance(TestCase):
-    # We load the images from the resoures directory
+    # We load the images from the resources directory
     test_dir = os.path.dirname(__file__)
     img_3x4_000000 = si.imread(os.path.join(test_dir, 'resources', '3x4_000000.png'))
     img_3x4_123456 = si.imread(os.path.join(test_dir, 'resources', '3x4_123456.png'))
