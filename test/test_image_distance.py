@@ -4,9 +4,16 @@ import pytest
 import os
 import skimage.io as si
 
-test_dir = os.path.dirname(__file__)
 
 class TestImageDistance(TestCase):
+    # We load the images from the resoures directory
+    test_dir = os.path.dirname(__file__)
+    img_3x4_000000 = si.imread(os.path.join(test_dir, 'resources', '3x4_000000.png'))
+    img_3x4_123456 = si.imread(os.path.join(test_dir, 'resources', '3x4_123456.png'))
+    img_3x4_d29c55 = si.imread(os.path.join(test_dir, 'resources', '3x4_d29c55.png'))
+    img_3x4_ffffff = si.imread(os.path.join(test_dir, 'resources', '3x4_ffffff.png'))
+    img_3x4_black_stripe = si.imread(os.path.join(test_dir, 'resources', '3x4_black_stripe.png'))
+    img_3x4_white_stripe = si.imread(os.path.join(test_dir, 'resources', '3x4_white_stripe.png'))
 
     def test_different_shapes(self):
         """Test that two image arrays of different shapes raises the appropriate exception"""
