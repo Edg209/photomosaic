@@ -35,6 +35,7 @@ class CandidateImageDistanceGrid(object):
     def __init__(self, candidate_image: np.ndarray, target_images: np.ndarray):
         """
         Construct an iterator from the candidate image
+
         :param candidate_image: a numpy.ndarray of shape (X,Y,3) where (X,Y) is the comparison shape and each entry has dtype uint8
         :param target_images: a numpy.ndarray of shape (A,B) where (A,B) is the grid shape and each entry is a numpy.ndarray of the same shape and dtype as candidate_image
         """
