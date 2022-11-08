@@ -24,7 +24,9 @@ class TestImageDistance(TestCase):
 
     def test_incorrect_dtype(self):
         """Test that an image array of incorrect datatype raises the appropriate exception"""
-        raise NotImplementedError
+        changed_type = self.img_3x4_ffffff.astype(int)
+        with pytest.raises(InvalidTypeException):
+            ImageDistance(self.img_3x4_ffffff, changed_type)
 
     def test_white_vs_black(self):
         """Test that a plain white and plain black image have the maximum distance"""
