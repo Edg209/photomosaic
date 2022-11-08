@@ -10,9 +10,10 @@ def ImageDistance(img1: np.ndarray, img2:np.ndarray) -> float:
     Along the third axis the value of the pixel is given in RGB format - three integers between 0 an 255.
     To calculate the pixel distance, we treat each pixel as a point in 3 dimensional space, and find the L1 distance.
     As each of R, G or B distance can be between 0 and 255, the pixel distance is between 0 and 765.
+    We will shortcut and find the average of all RGB distances, equivalent to the L1 distance divided by 3.
 
     :param img1: numpy.ndarray of the RGB values of one of the images. Must have datatype numpy.uint8.
     :param img2: numpy.ndarray of the RGB values of the second image. Must have datatype numpy.uint8.
-    :return: float of the image distance. Is in the range [0,765].
+    :return: float of the image distance. Is in the range [0,255].
     """
     raise NotImplementedError
