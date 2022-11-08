@@ -16,8 +16,8 @@ setup(
         "Intended Audience :: Developers",
         "Programming Language :: Python :: 3",
     ],
-    package_dir={"": "src"},
-    packages=find_packages(where="src"),
+    package_dir={"": "photomosaic"},
+    packages=find_packages(where="photomosaic"),
     python_requires=">=3, <4",
     install_requires=[],
 )
