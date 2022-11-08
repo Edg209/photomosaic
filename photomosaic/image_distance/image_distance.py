@@ -17,3 +17,31 @@ def ImageDistance(img1: np.ndarray, img2:np.ndarray) -> float:
     :return: float of the image distance. Is in the range [0,255].
     """
     raise NotImplementedError
+
+class CandidateImageDistanceGrid(object):
+    """
+    An object that represents the image distance of a comparison candidate image to a grid of comparison target images.
+
+    Attributes:
+        grid_shape: A tuple giving the x,y size of the grid of comparison target images
+        comparison_shape: A tuple giving the x,y size of each comparison image
+        distance_grid: A numpy.ndarray of floats giving the image distance of the candidate to each target image
+
+    Methods:
+        calculate: Populate distance_grid with image distances
+        output_to_csv: Save the values of distance_grid to a csv file
+    """
+
+    def __init__(self, candidate_image: np.ndarray, target_images: np.ndarray):
+        """
+        Construct an iterator from the candidate image
+        :param candidate_image: a numpy.ndarray of shape (X,Y,3) where (X,Y) is the comparison shape and each entry has dtype uint8
+        :param target_images: a numpy.ndarray of shape (A,B) where (A,B) is the grid shape and each entry is a numpy.ndarray of the same shape and dtype as candidate_image
+        """
+        raise NotImplementedError
+
+    def calculate(self):
+        raise NotImplementedError
+
+    def output_to_csv(self):
+        raise NotImplementedError
