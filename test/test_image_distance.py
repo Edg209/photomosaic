@@ -3,8 +3,10 @@ from unittest import TestCase
 import pytest
 import os
 import skimage.io as si
-from photomosaic.image_distance.image_distance import ImageDistance
+import numpy as np
+from photomosaic.image_distance.image_distance import ImageDistance, CandidateImageDistanceGrid
 from photomosaic.exceptions import InvalidTypeException, InvalidShapeException
+
 
 class TestImageDistance(TestCase):
     # We load the images from the resources directory
@@ -57,4 +59,39 @@ class TestImageDistance(TestCase):
         # The second image is d29c55 in hex, which is (210, 156, 85) in decimal
         # This gives pixel distances of (202, 104, 1), which average to 307/3
         distance = ImageDistance(self.img_3x4_123456, self.img_3x4_d29c55)
-        assert distance == pytest.approx(307/3)
+        assert distance == pytest.approx(307 / 3)
+
+
+class TestCandidateImageDistanceGrid(TestCase):
+    # We construct a series of sample arguments that will be used in the tests
+    # The candidate will be a 1x1 image of FF000000
+    sample_candidate_image = np.array([[[255, 0, 0]]], dtype=np.uint8)
+    # The target image will be a 2x2 grid of FF0000,00FF00,0000FF,FF00FF
+    sample_target_images = np.array([
+        [
+            np.array([[[255, 0, 0]]], dtype=np.uint8),
+            np.array([[[0, 255, 0]]], dtype=np.uint8)
+        ],
+        [
+            np.array([[[0, 0, 255]]], dtype=np.uint8),
+            np.array([[[255, 0, 255]]], dtype=np.uint8)
+        ]])
+
+    def test_calculate_distances(self):
+        """Test that the comparison can be correctly calculated"""
+
+    def test_different_comparison_target_shapes(self):
+        """Test that if the comparison images are a different shape to the target images the appropriate exception is raised"""
+        raise NotImplementedError
+
+    def test_inconsistent_target_shapes(self):
+        """Test that if the target images are not all the same shape the appropriate exception is raised"""
+        raise NotImplementedError
+
+    def test_incorrect_candidate_dtype(self):
+        """Test that if the candidate image does not have the correct dtype the appropriate exception is raised"""
+        raise NotImplementedError
+
+    def test_incorrect_target_dtype(self):
+        """Test that if the target image does not have the correct type the appropriate exception is raised"""
+        raise NotImplementedError
