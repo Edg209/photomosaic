@@ -1,7 +1,8 @@
 import numpy as np
 import skimage.io as si
 
-def ImageDistance(img1: np.ndarray, img2:np.ndarray) -> float:
+
+def ImageDistance(img1: np.ndarray, img2: np.ndarray) -> float:
     """
     Calculate the image distance between two images of the same shape.
     The image distance is the average of all the pixel distances of the two images.
@@ -17,6 +18,7 @@ def ImageDistance(img1: np.ndarray, img2:np.ndarray) -> float:
     :return: float of the image distance. Is in the range [0,255].
     """
     raise NotImplementedError
+
 
 class CandidateImageDistanceGrid(object):
     """
