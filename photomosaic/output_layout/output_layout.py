@@ -11,7 +11,7 @@ class OutputLayout(object):
          image_grid: A numpy.ndarray of strings of the names of the optimal image to use at each location of the grid
 
     Methods:
-        calculate: populate image_grid with the optimal image names
+        calculate: Populate image_grid with the optimal image names
         output_to_csv: Save the values of image_grid to a csv file
     """
 
