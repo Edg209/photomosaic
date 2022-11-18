@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class OutputLayout(object):
     """
     An object that represents a layout of output images that resemble a target image.
