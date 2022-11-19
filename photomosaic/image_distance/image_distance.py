@@ -1,5 +1,6 @@
 import numpy as np
 import skimage.io as si
+from photomosaic.exceptions import InvalidTypeException, InvalidShapeException
 
 
 def ImageDistance(img1: np.ndarray, img2: np.ndarray) -> float:
@@ -13,11 +14,22 @@ def ImageDistance(img1: np.ndarray, img2: np.ndarray) -> float:
     As each of R, G or B distance can be between 0 and 255, the pixel distance is between 0 and 765.
     We will shortcut and find the average of all RGB distances, equivalent to the L1 distance divided by 3.
 
+    :rtype: float
     :param img1: numpy.ndarray of the RGB values of one of the images. Must have datatype numpy.uint8.
     :param img2: numpy.ndarray of the RGB values of the second image. Must have datatype numpy.uint8.
     :return: float of the image distance. Is in the range [0,255].
     """
-    raise NotImplementedError
+    if img1.shape != img2.shape:
+        raise InvalidShapeException
+    if img1.dtype != np.uint8 or img2.dtype != np.uint8:
+        raise InvalidTypeException
+    img_diff = img1 - img2
+    # For any particular location, if img1 is greater than or equal to img2, img_diff will contain the absolute difference.
+    # If img1 is less than img2 at that location, img_diff will contain another uint8 that is equivalent to the negative value of the difference.
+    # We can therefore multiply by -1 in the locations where img1 is less than img2 to get a ndarray of all the absolute differences.
+    negative_mask = img1 < img2
+    img_distances = np.negative(img_diff, where=negative_mask, out=img_diff)
+    return np.average(img_distances)
 
 
 class CandidateImageDistanceGrid(object):
