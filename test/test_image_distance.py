@@ -84,20 +84,13 @@ class TestCandidateImageDistanceGrid(TestCase):
         cd.calculate()
         assert cd.grid_shape == (2, 2)
         assert cd.comparison_shape == (1, 1)
-        assert expected_distances == cd.distance_grid
+        assert np.array_equal(expected_distances, cd.distance_grid)
 
     def test_different_comparison_target_shapes(self):
         """Test that if the candidate image is a different shape to the target images the appropriate exception is raised"""
         test_candidate_image = np.array([[[255, 0, 0], [255, 0, 0]]], dtype=np.uint8)
         with pytest.raises(InvalidShapeException):
             CandidateImageDistanceGrid(test_candidate_image, self.sample_target_images)
-
-    def test_inconsistent_target_shapes(self):
-        """Test that if the target images are not all the same shape the appropriate exception is raised"""
-        test_target_images = self.sample_target_images.copy()
-        test_target_images[0, 0] = np.array([[[255, 0, 0], [255, 0, 0]]], dtype=np.uint8)
-        with pytest.raises(InvalidShapeException):
-            CandidateImageDistanceGrid(self.sample_candidate_image, test_target_images)
 
     def test_incorrect_candidate_dtype(self):
         """Test that if the candidate image does not have the correct dtype the appropriate exception is raised"""

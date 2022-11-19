@@ -51,12 +51,35 @@ class CandidateImageDistanceGrid(object):
         Construct a CandidateImageDistanceGrid for a candidate image
 
         :param candidate_image: a numpy.ndarray of shape (X,Y,3) where (X,Y) is the comparison shape and each entry has dtype uint8
-        :param target_images: a numpy.ndarray of shape (A,B) where (A,B) is the grid shape and each entry is a numpy.ndarray of the same shape and dtype as candidate_image
+        :param target_images: a numpy.ndarray of shape (A,B,X,Y,3) where (A,B) is the grid shape and each (X,Y,3) is a numpy.ndarray of the same shape and dtype as candidate_image
         """
-        raise NotImplementedError
+        # Check that candidate_image is of the shape (X,Y,3)
+        if len(candidate_image.shape) != 3:
+            raise InvalidShapeException
+        if candidate_image.shape[2] != 3:
+            raise InvalidShapeException
+        self.comparison_shape = candidate_image.shape[:2]
+        # Check that grid_shape is of the shape (A,B,X,Y,3)
+        if len(target_images.shape) != 5:
+            raise InvalidShapeException
+        if target_images.shape[2:4] != self.comparison_shape:
+            raise InvalidShapeException
+        if target_images.shape[4] != 3:
+            raise InvalidShapeException
+        self.grid_shape = target_images.shape[:2]
+        # Check that candidate_image is the correct dtype
+        if candidate_image.dtype != np.uint8:
+            raise InvalidTypeException
+        # Check that target_images is the correct dtype
+        if target_images.dtype != np.uint8:
+            raise InvalidTypeException
+        # We have passed all input checks at this point
+        self._candidate_image = candidate_image
+        self._target_images = target_images
 
     def calculate(self):
-        raise NotImplementedError
+        distances = [[image_distance(self._candidate_image, cell) for cell in row] for row in self._target_images]
+        self.distance_grid = np.array(distances)
 
     def output_to_csv(self):
         raise NotImplementedError
