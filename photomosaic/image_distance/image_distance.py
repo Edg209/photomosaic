@@ -1,5 +1,4 @@
 import numpy as np
-import skimage.io as si
 from photomosaic.exceptions import InvalidTypeException, InvalidShapeException
 
 
