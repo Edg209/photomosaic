@@ -19,7 +19,7 @@ class OutputImage(object):
         """
         Construct an OutputImage of the chosen optimal images at each location on the grid.
 
-        :param image_grid
+        :param image_grid: numpy.nparray of the names of the images to be used at each point in the grid.
         """
         raise NotImplementedError
 
