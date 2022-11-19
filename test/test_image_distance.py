@@ -57,9 +57,9 @@ class TestImageDistance(TestCase):
         """Test that we can calculate the image distance between two images of complex shades"""
         # The first image is 123456 in hex, which is (18, 52, 86) in decimal
         # The second image is d29c55 in hex, which is (210, 156, 85) in decimal
-        # This gives pixel distances of (202, 104, 1), which average to 307/3
+        # This gives pixel distances of (192, 104, 1), which average to 99
         distance = ImageDistance(self.img_3x4_123456, self.img_3x4_d29c55)
-        assert distance == pytest.approx(307 / 3)
+        assert distance == pytest.approx(99)
 
 
 class TestCandidateImageDistanceGrid(TestCase):
