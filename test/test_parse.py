@@ -7,7 +7,7 @@ from photomosaic.input_parse.parse import InputParser
 from photomosaic.exceptions import InvalidShapeException
 
 
-@mock.patch('shutil.copy')
+@mock.patch('shutil.copyfile')
 @mock.patch('os.mkdir')
 class TestParse(TestCase):
     test_dir = os.path.dirname(__file__)
@@ -29,12 +29,12 @@ class TestParse(TestCase):
             ip = InputParser('dummy_file_path')
             ip.parse()
             mocked_open.assert_called_once_with('dummy_file_path', 'r')
-            mocked_mkdir.assert_called_with(self.sample_parameters['photomosaic_folder'])
-            mocked_mkdir.assert_called_with(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_candidate_images'))
-            mocked_mkdir.assert_called_with(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images'))
-            mocked_mkdir.assert_called_with(os.path.join(self.sample_parameters['photomosaic_folder'], 'output_candidate_images'))
-            mocked_mkdir.assert_called_with(os.path.join(self.sample_parameters['photomosaic_folder'], 'output_layouts'))
-            mocked_mkdir.assert_called_with(os.path.join(self.sample_parameters['photomosaic_folder'], 'output_images'))
+            mocked_mkdir.assert_any_call(self.sample_parameters['photomosaic_folder'])
+            mocked_mkdir.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_candidate_images'))
+            mocked_mkdir.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images'))
+            mocked_mkdir.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'output_candidate_images'))
+            mocked_mkdir.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'output_layouts'))
+            mocked_mkdir.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'output_images'))
             mocked_copy.assert_called_once_with(self.sample_parameters['target_image'], os.path.join(self.sample_parameters['photomosaic_folder'], 'target_image.png'))
 
     def test_folder_already_exists(self, mocked_mkdir, mocked_copy):
