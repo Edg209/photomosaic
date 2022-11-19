@@ -2,6 +2,8 @@
 
 This document will detail the process used in generating a photomosaic, and the concepts that will be used during the generation process.
 
+Note that every image is expected to be in PNG format. Candidate images that do not have the extension `.png` will be ignored, and the target image is assumed to be in PNG format.
+
 ## Concepts
 
 | Concept          | Meaning                                                                                                                                                                              |
