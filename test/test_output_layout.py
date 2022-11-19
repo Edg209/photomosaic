@@ -17,8 +17,8 @@ class TestOutputLayout(TestCase):
         """Test that we can correctly calculate the optimal images for a series of candidate images"""
         ol = OutputLayout(self.sample_distances)
         ol.calculate()
-        expected_img_grid = np.ndarray([['img1', 'img3'], ['img2', 'img2']])
-        assert expected_img_grid == ol.image_grid
+        expected_img_grid = np.array([['img1', 'img3'], ['img2', 'img2']])
+        assert np.array_equal(expected_img_grid, ol.image_grid)
 
     def test_inconsistent_grid_shape(self):
         """Test that if the grid shapes are not all the same shape the appropriate exception is raised"""
