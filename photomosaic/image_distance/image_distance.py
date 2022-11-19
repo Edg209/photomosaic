@@ -76,6 +76,7 @@ class CandidateImageDistanceGrid(object):
         # We have passed all input checks at this point
         self._candidate_image = candidate_image
         self._target_images = target_images
+        self.distance_grid = None
 
     def calculate(self):
         distances = [[image_distance(self._candidate_image, cell) for cell in row] for row in self._target_images]
