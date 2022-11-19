@@ -1,6 +1,22 @@
+import os
 from unittest import TestCase
 
-import pytest
+import numpy as np
+import skimage.io as si
+from photomosaic.output_image.output_image import OutputImage
+
 
 class TestOutputImage(TestCase):
-    raise NotImplementedError
+    test_dir = os.path.dirname(__file__)
+    sample_image_grid = np.array([['3x4_white_stripe.png', '3x4_white_stripe.png', '3x4_white_stripe.png', '3x4_white_stripe.png'],
+                                  ['3x4_black_stripe.png', '3x4_black_stripe.png', '3x4_black_stripe.png', '3x4_black_stripe.png'],
+                                  ['3x4_white_stripe.png', '3x4_white_stripe.png', '3x4_white_stripe.png', '3x4_white_stripe.png'],
+                                  ['3x4_white_stripe.png', '3x4_white_stripe.png', '3x4_white_stripe.png', '3x4_white_stripe.png'],
+                                  ])
+    sample_expected_image = si.imread(os.path.join(test_dir, 'resources', '12x16_stripes.png'))
+
+    def test_assemble(self):
+        """Test that we can correctly assemble an output image from a grid of chosen candidate images"""
+        oi = OutputImage(self.sample_image_grid)
+        oi.assemble()
+        assert self.sample_expected_image == oi.assembled_image
