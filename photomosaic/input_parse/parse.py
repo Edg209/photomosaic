@@ -1,10 +1,18 @@
+import json
+import os.path
+import shutil
+
+from photomosaic.exceptions import InvalidShapeException
+
+
 class InputParser(object):
     """
     An object that represents the input to set up a photomosaic.
 
     Attributes:
         photomosaic_folder: The folder that will be generated to contain all files related to this photomosaic
-        target_image: A numpy.ndarray of RGB values of the assembled image
+        target_image: The path of the file containing the target image
+        candidate_image_folder: The folder that contains the candidate images to be used in the photomosaic
         grid_shape: A tuple giving the x,y size of the grid of images
         output_shape: A tuple giving the x,y size of each of the candidate images
         comparison_shape: A tuple giving the x,y size of each of the comparison images
@@ -19,7 +27,38 @@ class InputParser(object):
 
         :param parameters_json: A string giving the path to a json file that contains the parameters for the photomosaic
         """
-        raise NotImplementedError
+        with open(parameters_json, 'r') as parameters_file:
+            parameters = json.loads(parameters_file.read())
+        # We test that the photomosaic folder does not exist
+        if os.path.isdir(parameters['photomosaic_folder']):
+            raise FileExistsError
+        self.photomosaic_folder = parameters['photomosaic_folder']
+        # We check that the target image and the folder of candidate images exist
+        if not os.path.isfile(parameters['target_image']):
+            raise FileNotFoundError
+        self.target_image = parameters['target_image']
+        if not os.path.isdir(parameters['candidate_image_folder']):
+            raise FileNotFoundError
+        self.candidate_image_folder = parameters['candidate_image_folder']
+        # We test that each of the grid, output and comparison shapes are positive integers
+        try:
+            self.grid_shape = (int(parameters['grid_x']), int(parameters['grid_y']))
+            self.output_shape = (int(parameters['output_x']), int(parameters['output_y']))
+            self.comparison_shape = (int(parameters['comparison_x']), int(parameters['comparison_y']))
+            if self.grid_shape != (parameters['grid_x'], parameters['grid_y']) or \
+                    self.output_shape != (parameters['output_x'], parameters['output_y']) or \
+                    self.comparison_shape != (parameters['comparison_x'], parameters['comparison_y']):
+                raise InvalidShapeException
+        except ValueError:
+            raise InvalidShapeException
+        if self.grid_shape[0] < 1 or self.grid_shape[1] < 1 or self.output_shape[0] < 1 or self.output_shape[1] < 1 or self.comparison_shape[0] < 1 or self.comparison_shape[1] < 1:
+            raise InvalidShapeException
 
     def parse(self):
-        raise NotImplementedError
+        os.mkdir(self.photomosaic_folder)
+        os.mkdir(os.path.join(self.photomosaic_folder, 'comparison_candidate_images'))
+        os.mkdir(os.path.join(self.photomosaic_folder, 'comparison_target_images'))
+        os.mkdir(os.path.join(self.photomosaic_folder, 'output_candidate_images'))
+        os.mkdir(os.path.join(self.photomosaic_folder, 'output_layouts'))
+        os.mkdir(os.path.join(self.photomosaic_folder, 'output_images'))
+        shutil.copyfile(self.target_image, os.path.join(self.photomosaic_folder, 'target_image.png'))
