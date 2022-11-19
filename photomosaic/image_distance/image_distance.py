@@ -3,7 +3,7 @@ import skimage.io as si
 from photomosaic.exceptions import InvalidTypeException, InvalidShapeException
 
 
-def ImageDistance(img1: np.ndarray, img2: np.ndarray) -> float:
+def image_distance(img1: np.ndarray, img2: np.ndarray) -> float:
     """
     Calculate the image distance between two images of the same shape.
     The image distance is the average of all the pixel distances of the two images.
