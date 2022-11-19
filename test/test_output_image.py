@@ -13,10 +13,11 @@ class TestOutputImage(TestCase):
                                   ['3x4_white_stripe.png', '3x4_white_stripe.png', '3x4_white_stripe.png', '3x4_white_stripe.png'],
                                   ['3x4_white_stripe.png', '3x4_white_stripe.png', '3x4_white_stripe.png', '3x4_white_stripe.png'],
                                   ])
-    sample_expected_image = si.imread(os.path.join(test_dir, 'resources', '12x16_stripes.png'))
+    sample_image_directory = os.path.join(test_dir, 'resources')
+    sample_expected_image = si.imread(os.path.join(sample_image_directory, '12x16_stripes.png'))
 
     def test_assemble(self):
         """Test that we can correctly assemble an output image from a grid of chosen candidate images"""
-        oi = OutputImage(self.sample_image_grid)
+        oi = OutputImage(self.sample_image_grid, self.sample_image_directory)
         oi.assemble()
-        assert self.sample_expected_image == oi.assembled_image
+        assert np.array_equal(self.sample_expected_image, oi.assembled_image)
