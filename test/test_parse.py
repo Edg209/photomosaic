@@ -17,10 +17,10 @@ class TestParse(TestCase):
     sample_parameters = {'photomosaic_folder': os.path.join(test_dir, 'parse_test'),
                          'target_image': os.path.join(test_dir, 'resources', '3x4_white_stripe.png'),
                          'candidate_image_folder': os.path.join(test_dir, 'parse_test_candidates'),
-                         'grid_x': 3,
-                         'grid_y': 4,
-                         'output_x': 6,
-                         'output_y': 8,
+                         'grid_x': 4,
+                         'grid_y': 3,
+                         'output_x': 8,
+                         'output_y': 6,
                          'comparison_x': 1,
                          'comparison_y': 1
                          }
