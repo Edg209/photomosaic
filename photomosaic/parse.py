@@ -70,7 +70,7 @@ class InputParser(object):
         shutil.copyfile(self.target_image, os.path.join(self.photomosaic_folder, 'target_image.png'))
 
     def _resize_images(self):
-        original_target_image = si.imread(os.path.join(self.photomosaic_folder, 'target_image.png'))
+        original_target_image = si.imread(self.target_image)
         candidate_image_names = {image_name for image_name in os.listdir(self.candidate_image_folder) if image_name.lower().endswith('.png')}
         # For each candidate image, it is resized and saved twice - once as a comparison image and once as an output image
         for candidate_image_name in candidate_image_names:
