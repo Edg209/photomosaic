@@ -3,6 +3,7 @@ import os.path
 import shutil
 
 from photomosaic.exceptions import InvalidShapeException
+import skimage.io as si
 
 
 class InputParser(object):
