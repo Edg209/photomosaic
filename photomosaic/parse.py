@@ -55,6 +55,9 @@ class InputParser(object):
             raise InvalidShapeException
 
     def parse(self):
+        self._create_directories()
+        self._resize_images()
+    def _create_directories(self):
         os.mkdir(self.photomosaic_folder)
         os.mkdir(os.path.join(self.photomosaic_folder, 'comparison_candidate_images'))
         os.mkdir(os.path.join(self.photomosaic_folder, 'comparison_target_images'))
@@ -62,3 +65,6 @@ class InputParser(object):
         os.mkdir(os.path.join(self.photomosaic_folder, 'output_layouts'))
         os.mkdir(os.path.join(self.photomosaic_folder, 'output_images'))
         shutil.copyfile(self.target_image, os.path.join(self.photomosaic_folder, 'target_image.png'))
+
+    def _resize_images(self):
+        raise NotImplementedError
