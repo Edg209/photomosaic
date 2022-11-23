@@ -4,6 +4,7 @@ from unittest import TestCase, mock
 
 import numpy as np
 import pytest
+import skimage.io as si
 from photomosaic.parse import InputParser
 from photomosaic.exceptions import InvalidShapeException
 
@@ -23,15 +24,17 @@ class TestParse(TestCase):
                          'comparison_x': 1,
                          'comparison_y': 1
                          }
+    img_3x4_white_stripe = si.imread(os.path.join(test_dir, 'resources', '3x4_white_stripe.png'))
 
     def test_parse_correct(self, mocked_mkdir, mocked_copy, mocked_imsave):
         """Test that a correctly formatted input will set up the correct folder structure and populate them with the correct images"""
         mocked_open = mock.mock_open(read_data=json.dumps(self.sample_parameters))
+        mocked_imread = mock.Mock(return_value=self.img_3x4_white_stripe)
         pixel_000000 = np.array([[[0, 0, 0]]])
         pixel_ffffff = np.array([[[255, 255, 255]]])
         output_000000 = np.array([6, 8, 3], dtype=np.uint8).fill(0)
         output_ffffff = np.array([6, 8, 3], dtype=np.uint8).fill(255)
-        with mock.patch('builtins.open', mocked_open):
+        with mock.patch('builtins.open', mocked_open), mock.patch('skimage.io.imread', mocked_imread):
             ip = InputParser('dummy_file_path')
             ip.parse()
             # Asserting that we attempt to read the JSON of parameters from the location given
