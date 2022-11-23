@@ -4,7 +4,7 @@ import pytest
 import os
 import skimage.io as si
 import numpy as np
-from photomosaic.image_distance.image_distance import image_distance, CandidateImageDistanceGrid
+from photomosaic.image_distance import image_distance, CandidateImageDistanceGrid
 from photomosaic.exceptions import InvalidTypeException, InvalidShapeException
 
 

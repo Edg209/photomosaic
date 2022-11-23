@@ -3,7 +3,7 @@ from unittest import TestCase
 
 import numpy as np
 import skimage.io as si
-from photomosaic.output_image.output_image import OutputImage
+from photomosaic.output_image import OutputImage
 
 
 class TestOutputImage(TestCase):

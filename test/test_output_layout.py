@@ -2,7 +2,7 @@ from unittest import TestCase
 
 import numpy as np
 import pytest
-from photomosaic.output_layout.output_layout import OutputLayout
+from photomosaic.output_layout import OutputLayout
 from photomosaic.exceptions import InvalidShapeException
 
 

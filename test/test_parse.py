@@ -3,7 +3,7 @@ import os
 from unittest import TestCase, mock
 
 import pytest
-from photomosaic.input_parse.parse import InputParser
+from photomosaic.parse import InputParser
 from photomosaic.exceptions import InvalidShapeException
 
 
