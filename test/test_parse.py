@@ -2,6 +2,7 @@ import json
 import os
 from unittest import TestCase, mock
 
+import numpy as np
 import pytest
 from photomosaic.parse import InputParser
 from photomosaic.exceptions import InvalidShapeException
@@ -15,28 +16,54 @@ class TestParse(TestCase):
     sample_parameters = {'photomosaic_folder': os.path.join(test_dir, 'parse_test'),
                          'target_image': os.path.join(test_dir, 'resources', '3x4_white_stripe.png'),
                          'candidate_image_folder': os.path.join(test_dir, 'parse_test_candidates'),
-                         'grid_x': 4,
+                         'grid_x': 3,
                          'grid_y': 4,
                          'output_x': 6,
                          'output_y': 8,
-                         'comparison_x': 3,
-                         'comparison_y': 4
+                         'comparison_x': 1,
+                         'comparison_y': 1
                          }
 
     def test_parse_correct(self, mocked_mkdir, mocked_copy, mocked_imsave):
         """Test that a correctly formatted input will set up the correct folder structure and populate them with the correct images"""
         mocked_open = mock.mock_open(read_data=json.dumps(self.sample_parameters))
+        pixel_000000 = np.array([[[0, 0, 0]]])
+        pixel_ffffff = np.array([[[255, 255, 255]]])
+        output_000000 = np.array([6, 8, 3], dtype=np.uint8).fill(0)
+        output_ffffff = np.array([6, 8, 3], dtype=np.uint8).fill(255)
         with mock.patch('builtins.open', mocked_open):
             ip = InputParser('dummy_file_path')
             ip.parse()
+            # Asserting that we attempt to read the JSON of parameters from the location given
             mocked_open.assert_called_once_with('dummy_file_path', 'r')
+            # Asserting that the folder structure is created
             mocked_mkdir.assert_any_call(self.sample_parameters['photomosaic_folder'])
             mocked_mkdir.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_candidate_images'))
             mocked_mkdir.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images'))
             mocked_mkdir.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'output_candidate_images'))
             mocked_mkdir.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'output_layouts'))
             mocked_mkdir.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'output_images'))
+            # Asserting that the original target image is copied
             mocked_copy.assert_called_once_with(self.sample_parameters['target_image'], os.path.join(self.sample_parameters['photomosaic_folder'], 'target_image.png'))
+            # Asserting that the comparison target images are saved
+            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '0x0.png'), pixel_000000)
+            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '0x1.png'), pixel_000000)
+            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '0x2.png'), pixel_000000)
+            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '1x0.png'), pixel_ffffff)
+            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '1x1.png'), pixel_ffffff)
+            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '1x2.png'), pixel_ffffff)
+            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '2x0.png'), pixel_000000)
+            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '2x1.png'), pixel_000000)
+            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '2x2.png'), pixel_000000)
+            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '3x0.png'), pixel_000000)
+            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '3x1.png'), pixel_000000)
+            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '3x2.png'), pixel_000000)
+            # Asserting that the comparison candidate images are saved
+            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_candidate_images', '3x4_000000.png'), pixel_000000)
+            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_candidate_images', '3x4_ffffff.png'), pixel_ffffff)
+            # Asserting that the output candidate images are saved
+            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'output_candidate_images', 'output_000000.png'), pixel_000000)
+            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'output_candidate_images', 'output_ffffff.png'), pixel_ffffff)
 
     def test_folder_already_exists(self, mocked_mkdir, mocked_copy, mocked_imsave):
         """Test that if the photomosaic folder already exists the appropriate exception is raised"""
