@@ -65,8 +65,8 @@ class TestParse(TestCase):
             mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_candidate_images', '3x4_000000.png'), pixel_000000)
             mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_candidate_images', '3x4_ffffff.png'), pixel_ffffff)
             # Asserting that the output candidate images are saved
-            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'output_candidate_images', 'output_000000.png'), pixel_000000)
-            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'output_candidate_images', 'output_ffffff.png'), pixel_ffffff)
+            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'output_candidate_images', '3x4_000000.png'), output_000000)
+            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'output_candidate_images', '3x4_ffffff.png'), output_ffffff)
 
     def test_folder_already_exists(self, mocked_mkdir, mocked_copy, mocked_imsave):
         """Test that if the photomosaic folder already exists the appropriate exception is raised"""
