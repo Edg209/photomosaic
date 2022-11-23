@@ -4,6 +4,7 @@ import shutil
 
 from photomosaic.exceptions import InvalidShapeException
 import skimage.io as si
+import skimage.transform as st
 
 
 class InputParser(object):
@@ -58,6 +59,7 @@ class InputParser(object):
     def parse(self):
         self._create_directories()
         self._resize_images()
+
     def _create_directories(self):
         os.mkdir(self.photomosaic_folder)
         os.mkdir(os.path.join(self.photomosaic_folder, 'comparison_candidate_images'))
@@ -68,4 +70,12 @@ class InputParser(object):
         shutil.copyfile(self.target_image, os.path.join(self.photomosaic_folder, 'target_image.png'))
 
     def _resize_images(self):
-        raise NotImplementedError
+        original_target_image = si.imread(os.path.join(self.photomosaic_folder, 'target_image.png'))
+        candidate_image_names = {image_name for image_name in os.listdir(self.candidate_image_folder) if image_name.lower().endswith('.png')}
+        # For each candidate image, it is resized and saved twice - once as a comparison image and once as an output image
+        for candidate_image_name in candidate_image_names:
+            candidate_image = si.imread(os.path.join(self.candidate_image_folder), candidate_image_name)
+            comparison_image = st.resize(candidate_image, self.comparison_shape)
+            output_image = st.resize(candidate_image, self.output_shape)
+            si.imsave(os.path.join(self.photomosaic_folder, 'comparison_candidate_images', candidate_image_name), comparison_image)
+            si.imsave(os.path.join(self.photomosaic_folder, 'output_candidate_images', candidate_image_name), output_image)
