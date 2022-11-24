@@ -4,6 +4,8 @@ This document will detail the process used in generating a photomosaic, and the 
 
 Note that every image is expected to be in PNG format. Candidate images that do not have the extension `.png` will be ignored, and the target image is assumed to be in PNG format.
 
+Also note that for each of the images, the x dimension is the number of rows, not the size of each row, and the y dimension is the number of columns. Therefore, if an image has a width of 3 and a height of 4, it is considered to have a shape of (4, 3).
+
 ## Concepts
 
 | Concept          | Meaning                                                                                                                                                                              |
@@ -29,12 +31,12 @@ This process is called with a JSON file that contains the full set of parameters
 | `photomosaic_folder`     | The path of the folder that all the generated photomosaic files will be placed in. This folder will be created as part of this step. | String up to 1000 characters |
 | `target_image`           | The path of the target image to be used in the photomosaic                                                                           | String up to 1000 characters |
 | `candidate_image_folder` | The path of the folder that contains the candidate images. Each file in the folder must be a candidate image.                        | String up to 1000 characters |
-| `grid_x`                 | The width of the grid of candidate images                                                                                            | Positive integer             |
-| `grid_y`                 | The height of the grid of candidate images                                                                                           | Positive integer             |
-| `output_x`               | The width of each candidate image in the output in pixels                                                                            | Positive integer             |
-| `output_y`               | The height of each candidate image in the output in pixels                                                                           | Positive integer             |
-| `comparison_x`           | The width of each image to be used during comparison                                                                                 | Positive Integer             |
-| `comparison_y`           | The height of each image to be used during comparison                                                                                | Positive Integer             |
+| `grid_x`                 | The number of rows in the grid of candidate images                                                                                   | Positive integer             |
+| `grid_y`                 | The number of columns in the grid of candidate images                                                                                | Positive integer             |
+| `output_x`               | The number of rows of each candidate image in the output in pixels                                                                   | Positive integer             |
+| `output_y`               | The number of columns of each candidate image in the output in pixels                                                                | Positive integer             |
+| `comparison_x`           | The number of rows of each image to be used during comparison                                                                        | Positive Integer             |
+| `comparison_y`           | The number of columns of each image to be used during comparison                                                                     | Positive Integer             |
 
 The cost of computing the photomosaic is proportional to the product of `comparison_x`, `comparison_y`, `grid_x`, `grid_y` and the number of images in `candidate_image_folder`. It is recommended to keep these parameters low.
 
