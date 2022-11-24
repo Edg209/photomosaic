@@ -31,8 +31,8 @@ class TestParse(TestCase):
         mocked_json_load = mock.Mock(return_value=self.sample_parameters)
         pixel_000000 = np.array([[[0, 0, 0]]], dtype=np.uint8)
         pixel_ffffff = np.array([[[255, 255, 255]]], dtype=np.uint8)
-        output_000000 = np.array([6, 8, 3], dtype=np.uint8).fill(0)
-        output_ffffff = np.array([6, 8, 3], dtype=np.uint8).fill(255)
+        output_000000 = np.array([[[0, 0, 0] for y in range(6)] for x in range(8)])
+        output_ffffff = np.array([[[255, 255, 255] for y in range(6)] for x in range(8)])
         with mock.patch('json.load', mocked_json_load):
             ip = InputParser('dummy_file_path')
             ip.parse()
