@@ -28,17 +28,16 @@ class TestParse(TestCase):
 
     def test_parse_correct(self, mocked_mkdir, mocked_copy, mocked_imsave):
         """Test that a correctly formatted input will set up the correct folder structure and populate them with the correct images"""
-        mocked_open = mock.mock_open(read_data=json.dumps(self.sample_parameters))
-        mocked_imread = mock.Mock(return_value=self.img_3x4_white_stripe)
-        pixel_000000 = np.array([[[0, 0, 0]]])
-        pixel_ffffff = np.array([[[255, 255, 255]]])
+        mocked_json_load = mock.MagicMock(read_data=self.sample_parameters)
+        pixel_000000 = np.array([[[0, 0, 0]]], dtype=np.uint8)
+        pixel_ffffff = np.array([[[255, 255, 255]]], dtype=np.uint8)
         output_000000 = np.array([6, 8, 3], dtype=np.uint8).fill(0)
         output_ffffff = np.array([6, 8, 3], dtype=np.uint8).fill(255)
-        with mock.patch('builtins.open', mocked_open), mock.patch('skimage.io.imread', mocked_imread):
+        with mock.patch('json.load', mocked_json_load):
             ip = InputParser('dummy_file_path')
             ip.parse()
             # Asserting that we attempt to read the JSON of parameters from the location given
-            mocked_open.assert_called_once_with('dummy_file_path', 'r')
+            mocked_json_load.assert_called_once_with('dummy_file_path')
             # Asserting that the folder structure is created
             mocked_mkdir.assert_any_call(self.sample_parameters['photomosaic_folder'])
             mocked_mkdir.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_candidate_images'))
@@ -48,32 +47,35 @@ class TestParse(TestCase):
             mocked_mkdir.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'output_images'))
             # Asserting that the original target image is copied
             mocked_copy.assert_called_once_with(self.sample_parameters['target_image'], os.path.join(self.sample_parameters['photomosaic_folder'], 'target_image.png'))
+            # For asserting calls with a ndarray, we can't use assert_any_call directly, we have to instead use retrieve the call list and check the contents
+            # We instead set up a dict with the path as the keys and ndarray as the values
+            imsave_calls = {call[0][0]: call[0][1] for call in mocked_imsave.call_args_list}
             # Asserting that the comparison target images are saved
-            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '0x0.png'), pixel_000000)
-            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '0x1.png'), pixel_000000)
-            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '0x2.png'), pixel_000000)
-            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '1x0.png'), pixel_ffffff)
-            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '1x1.png'), pixel_ffffff)
-            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '1x2.png'), pixel_ffffff)
-            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '2x0.png'), pixel_000000)
-            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '2x1.png'), pixel_000000)
-            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '2x2.png'), pixel_000000)
-            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '3x0.png'), pixel_000000)
-            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '3x1.png'), pixel_000000)
-            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '3x2.png'), pixel_000000)
+            assert np.array_equal(imsave_calls[os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '0x0.png')], pixel_000000)
+            assert np.array_equal(imsave_calls[os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '0x1.png')], pixel_000000)
+            assert np.array_equal(imsave_calls[os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '0x2.png')], pixel_000000)
+            assert np.array_equal(imsave_calls[os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '1x0.png')], pixel_ffffff)
+            assert np.array_equal(imsave_calls[os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '1x1.png')], pixel_ffffff)
+            assert np.array_equal(imsave_calls[os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '1x2.png')], pixel_ffffff)
+            assert np.array_equal(imsave_calls[os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '2x0.png')], pixel_000000)
+            assert np.array_equal(imsave_calls[os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '2x1.png')], pixel_000000)
+            assert np.array_equal(imsave_calls[os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '2x2.png')], pixel_000000)
+            assert np.array_equal(imsave_calls[os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '3x0.png')], pixel_000000)
+            assert np.array_equal(imsave_calls[os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '3x1.png')], pixel_000000)
+            assert np.array_equal(imsave_calls[os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images', '3x2.png')], pixel_000000)
             # Asserting that the comparison candidate images are saved
-            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_candidate_images', '3x4_000000.png'), pixel_000000)
-            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_candidate_images', '3x4_ffffff.png'), pixel_ffffff)
+            assert np.array_equal(imsave_calls[os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_candidate_images', '3x4_000000.png')], pixel_000000)
+            assert np.array_equal(imsave_calls[os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_candidate_images', '3x4_ffffff.png')], pixel_ffffff)
             # Asserting that the output candidate images are saved
-            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'output_candidate_images', '3x4_000000.png'), output_000000)
-            mocked_imsave.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'output_candidate_images', '3x4_ffffff.png'), output_ffffff)
+            assert np.array_equal(imsave_calls[os.path.join(self.sample_parameters['photomosaic_folder'], 'output_candidate_images', '3x4_000000.png')], output_000000)
+            assert np.array_equal(imsave_calls[os.path.join(self.sample_parameters['photomosaic_folder'], 'output_candidate_images', '3x4_ffffff.png')], output_ffffff)
 
     def test_folder_already_exists(self, mocked_mkdir, mocked_copy, mocked_imsave):
         """Test that if the photomosaic folder already exists the appropriate exception is raised"""
         test_parameters = self.sample_parameters.copy()
         test_parameters['photomosaic_folder'] = os.path.join(self.test_dir, 'parse_test_candidates')
-        mocked_open = mock.mock_open(read_data=json.dumps(test_parameters))
-        with mock.patch('builtins.open', mocked_open):
+        mocked_json_load = mock.MagicMock(read_data=test_parameters)
+        with mock.patch('json.load', mocked_json_load):
             with pytest.raises(FileExistsError):
                 InputParser('dummy_file_path')
 
@@ -81,8 +83,8 @@ class TestParse(TestCase):
         """Test that if the target image does not exist the appropriate exception is raised"""
         test_parameters = self.sample_parameters.copy()
         test_parameters['target_image'] = os.path.join(self.test_dir, 'does_not_exist.png')
-        mocked_open = mock.mock_open(read_data=json.dumps(test_parameters))
-        with mock.patch('builtins.open', mocked_open):
+        mocked_json_load = mock.MagicMock(read_data=test_parameters)
+        with mock.patch('json.load', mocked_json_load):
             with pytest.raises(FileNotFoundError):
                 InputParser('dummy_file_path')
 
@@ -90,8 +92,8 @@ class TestParse(TestCase):
         """Test that if the candidate image folder does not exist the appropriate exception is raised"""
         test_parameters = self.sample_parameters.copy()
         test_parameters['candidate_image_folder'] = os.path.join(self.test_dir, 'does_not_exist')
-        mocked_open = mock.mock_open(read_data=json.dumps(test_parameters))
-        with mock.patch('builtins.open', mocked_open):
+        mocked_json_load = mock.MagicMock(read_data=test_parameters)
+        with mock.patch('json.load', mocked_json_load):
             with pytest.raises(FileNotFoundError):
                 InputParser('dummy_file_path')
 
@@ -99,14 +101,14 @@ class TestParse(TestCase):
         """Test that if the grid x and y dimensions are not positive integers the appropriate exception is raised"""
         test_parameters = self.sample_parameters.copy()
         test_parameters['grid_x'] = 1.5
-        mocked_open = mock.mock_open(read_data=json.dumps(test_parameters))
-        with mock.patch('builtins.open', mocked_open):
+        mocked_json_load = mock.MagicMock(read_data=test_parameters)
+        with mock.patch('json.load', mocked_json_load):
             with pytest.raises(InvalidShapeException):
                 InputParser('dummy_file_path')
         test_parameters = self.sample_parameters.copy()
         test_parameters['grid_x'] = -2
-        mocked_open = mock.mock_open(read_data=json.dumps(test_parameters))
-        with mock.patch('builtins.open', mocked_open):
+        mocked_json_load = mock.MagicMock(read_data=test_parameters)
+        with mock.patch('json.load', mocked_json_load):
             with pytest.raises(InvalidShapeException):
                 InputParser('dummy_file_path')
 
@@ -114,14 +116,14 @@ class TestParse(TestCase):
         """Test that if the output x and y dimensions are not positive integers the appropriate exception is raised"""
         test_parameters = self.sample_parameters.copy()
         test_parameters['output_y'] = 1.5
-        mocked_open = mock.mock_open(read_data=json.dumps(test_parameters))
-        with mock.patch('builtins.open', mocked_open):
+        mocked_json_load = mock.MagicMock(read_data=test_parameters)
+        with mock.patch('json.load', mocked_json_load):
             with pytest.raises(InvalidShapeException):
                 InputParser('dummy_file_path')
         test_parameters = self.sample_parameters.copy()
         test_parameters['output_y'] = -2
-        mocked_open = mock.mock_open(read_data=json.dumps(test_parameters))
-        with mock.patch('builtins.open', mocked_open):
+        mocked_json_load = mock.MagicMock(read_data=test_parameters)
+        with mock.patch('json.load', mocked_json_load):
             with pytest.raises(InvalidShapeException):
                 InputParser('dummy_file_path')
 
@@ -129,13 +131,13 @@ class TestParse(TestCase):
         """Test that if the comparison x and y dimensions are not positive integers the appropriate exception is raised"""
         test_parameters = self.sample_parameters.copy()
         test_parameters['comparison_x'] = 1.5
-        mocked_open = mock.mock_open(read_data=json.dumps(test_parameters))
-        with mock.patch('builtins.open', mocked_open):
+        mocked_json_load = mock.MagicMock(read_data=test_parameters)
+        with mock.patch('json.load', mocked_json_load):
             with pytest.raises(InvalidShapeException):
                 InputParser('dummy_file_path')
         test_parameters = self.sample_parameters.copy()
         test_parameters['comparison_x'] = -2
-        mocked_open = mock.mock_open(read_data=json.dumps(test_parameters))
-        with mock.patch('builtins.open', mocked_open):
+        mocked_json_load = mock.MagicMock(read_data=test_parameters)
+        with mock.patch('json.load', mocked_json_load):
             with pytest.raises(InvalidShapeException):
                 InputParser('dummy_file_path')
