@@ -55,7 +55,10 @@ class Photomosaic(object):
             # We calculate the image distance grid for that candidate image, update the output layout, and generate an output image
             self.image_distance_grids[imgname] = CandidateImageDistanceGrid(self.comparison_candidate_images[imgname], self.input_parser.target_image_grid)
             self.image_distance_grids[imgname].calculate()
+            self.image_distance_grids[imgname].output_to_csv(os.path.join(self.photomosaic_folder, 'image_distances', imgname + '.csv'))
             self.output_layouts[imgname] = OutputLayout(self.image_distance_grids)
             self.output_layouts[imgname].calculate()
+            self.output_layouts[imgname].output_to_csv(os.path.join(self.photomosaic_folder, 'output_layouts', imgname + '.csv'))
             self.output_images[imgname] = OutputImage(self.output_layouts[imgname].image_grid, os.path.join(self.photomosaic_folder, 'output_candidate_images'))
             self.output_images[imgname].assemble()
+            self.output_images[imgname].output_to_png(os.path.join(self.photomosaic_folder, 'output_images', imgname))

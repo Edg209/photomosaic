@@ -42,6 +42,7 @@ class TestParse(TestCase):
             mocked_mkdir.assert_any_call(self.sample_parameters['photomosaic_folder'])
             mocked_mkdir.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_candidate_images'))
             mocked_mkdir.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images'))
+            mocked_mkdir.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'image_distances'))
             mocked_mkdir.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'output_candidate_images'))
             mocked_mkdir.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'output_layouts'))
             mocked_mkdir.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'output_images'))
