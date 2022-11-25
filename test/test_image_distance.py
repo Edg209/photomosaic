@@ -94,7 +94,7 @@ class TestCandidateImageDistanceGrid(TestCase):
 
     def test_incorrect_candidate_dtype(self):
         """Test that if the candidate image does not have the correct dtype the appropriate exception is raised"""
-        test_candidate_image = np.array([[[255, 0, 0]]], dtype=np.uint8)
+        test_candidate_image = np.array([[[255, 0, 0]]], dtype=np.int32)
         with pytest.raises(InvalidTypeException):
             CandidateImageDistanceGrid(test_candidate_image, self.sample_target_images)
 
