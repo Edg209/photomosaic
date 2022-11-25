@@ -1,12 +1,12 @@
-import json
 import os
 from unittest import TestCase, mock
 
 import numpy as np
 import pytest
 import skimage.io as si
-from photomosaic.parse import InputParser
+
 from photomosaic.exceptions import InvalidShapeException
+from photomosaic.parse import InputParser
 
 
 @mock.patch('skimage.io.imsave')
