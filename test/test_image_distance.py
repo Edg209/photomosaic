@@ -102,12 +102,12 @@ class TestCandidateImageDistanceGrid(TestCase):
         """Test that if the target image does not have the correct type the appropriate exception is raised"""
         test_target_images = np.array([
             [
-                np.array([[[255, 0, 0]]], dtype=np.uint8),
-                np.array([[[0, 255, 0]]], dtype=np.uint8)
+                np.array([[[255, 0, 0]]], dtype=np.int32),
+                np.array([[[0, 255, 0]]], dtype=np.int32)
             ],
             [
-                np.array([[[0, 0, 255]]], dtype=np.uint8),
-                np.array([[[255, 0, 255]]], dtype=np.uint8)
+                np.array([[[0, 0, 255]]], dtype=np.int32),
+                np.array([[[255, 0, 255]]], dtype=np.int32)
             ]])
         with pytest.raises(InvalidTypeException):
             CandidateImageDistanceGrid(self.sample_candidate_image, test_target_images)
