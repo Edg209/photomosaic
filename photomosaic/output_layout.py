@@ -44,5 +44,5 @@ class OutputLayout(object):
         self.image_grid = best_candidates
         self.candidate_images = np.unique(best_candidates)
 
-    def output_to_csv(self):
-        raise NotImplementedError
+    def output_to_csv(self, filepath: str):
+        np.savetxt(filepath, self.image_grid, delimiter=',')

@@ -81,5 +81,5 @@ class CandidateImageDistanceGrid(object):
         distances = [[image_distance(self._candidate_image, cell) for cell in row] for row in self._target_images]
         self.distance_grid = np.array(distances)
 
-    def output_to_csv(self):
-        raise NotImplementedError
+    def output_to_csv(self, filepath: str):
+        np.savetxt(filepath, self.distance_grid, delimiter=',')

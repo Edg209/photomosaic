@@ -33,5 +33,5 @@ class OutputImage(object):
     def assemble(self):
         self.assembled_image = np.vstack(np.hstack(self.candidate_images[cell] for cell in row)for row in self._image_grid)
 
-    def output_to_png(self):
-        raise NotImplementedError
+    def output_to_png(self, filepath: str):
+        si.imsave(filepath, self.assembled_image)
