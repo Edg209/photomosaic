@@ -21,6 +21,7 @@ class InputParser(object):
         grid_shape: A tuple giving the x,y size of the grid of images
         output_shape: A tuple giving the x,y size of each of the candidate images
         comparison_shape: A tuple giving the x,y size of each of the comparison images
+        target_image_grid: A numpy.ndarray of shape (A,B,X,Y,3) where (A,B) is the grid shape and (X,Y) is the comparison shape
 
     Methods:
         parse: Generate the folder structure and populate the candidate and output image folders
@@ -57,6 +58,7 @@ class InputParser(object):
             raise InvalidShapeException
         if self.grid_shape[0] < 1 or self.grid_shape[1] < 1 or self.output_shape[0] < 1 or self.output_shape[1] < 1 or self.comparison_shape[0] < 1 or self.comparison_shape[1] < 1:
             raise InvalidShapeException
+        self.target_image_grid = np.zeros(self.grid_shape + self.comparison_shape + (3,), dtype=np.uint8)
 
     def parse(self):
         self._create_directories()
@@ -92,3 +94,4 @@ class InputParser(object):
             target_image_slice = original_target_image[image_curr_x:image_next_x, image_curr_y:image_next_y]
             image_slice_name = str(x) + 'x' + str(y) + '.png'
             si.imsave(os.path.join(self.photomosaic_folder, 'comparison_target_images', image_slice_name), target_image_slice)
+            self.target_image_grid[x, y] = target_image_slice
