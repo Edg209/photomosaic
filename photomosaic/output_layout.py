@@ -36,7 +36,7 @@ class OutputLayout(object):
     def calculate(self):
         # We will loop over every image and choose it at a location if it has a smaller distance than any image chosen so far
         best_candidates = np.full(self.grid_shape, '', dtype=str)
-        best_distances = np.full(self.grid_shape, 1000, dtype=float) # The maximum of any distance is 255, so any calculated distance will be better than this
+        best_distances = np.full(self.grid_shape, 1000, dtype=float)  # The maximum of any distance is 255, so any calculated distance will be better than this
         for (candidate, distances) in self._image_distances.items():
             improvement_mask = distances < best_distances
             best_candidates = np.where(improvement_mask, candidate, best_candidates)
@@ -44,5 +44,5 @@ class OutputLayout(object):
         self.image_grid = best_candidates
         self.candidate_images = np.unique(best_candidates)
 
-    def output_to_csv(self):
-        raise NotImplementedError
+    def output_to_csv(self, filepath: str):
+        np.savetxt(filepath, self.image_grid, delimiter=',')

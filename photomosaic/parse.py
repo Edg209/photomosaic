@@ -68,6 +68,7 @@ class InputParser(object):
         os.mkdir(self.photomosaic_folder)
         os.mkdir(os.path.join(self.photomosaic_folder, 'comparison_candidate_images'))
         os.mkdir(os.path.join(self.photomosaic_folder, 'comparison_target_images'))
+        os.mkdir(os.path.join(self.photomosaic_folder, 'image_distances'))
         os.mkdir(os.path.join(self.photomosaic_folder, 'output_candidate_images'))
         os.mkdir(os.path.join(self.photomosaic_folder, 'output_layouts'))
         os.mkdir(os.path.join(self.photomosaic_folder, 'output_images'))

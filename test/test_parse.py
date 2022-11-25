@@ -1,12 +1,12 @@
-import json
 import os
 from unittest import TestCase, mock
 
 import numpy as np
 import pytest
 import skimage.io as si
-from photomosaic.parse import InputParser
+
 from photomosaic.exceptions import InvalidShapeException
+from photomosaic.parse import InputParser
 
 
 @mock.patch('skimage.io.imsave')
@@ -42,6 +42,7 @@ class TestParse(TestCase):
             mocked_mkdir.assert_any_call(self.sample_parameters['photomosaic_folder'])
             mocked_mkdir.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_candidate_images'))
             mocked_mkdir.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_target_images'))
+            mocked_mkdir.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'image_distances'))
             mocked_mkdir.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'output_candidate_images'))
             mocked_mkdir.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'output_layouts'))
             mocked_mkdir.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'output_images'))

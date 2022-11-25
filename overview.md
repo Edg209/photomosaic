@@ -40,10 +40,11 @@ This process is called with a JSON file that contains the full set of parameters
 
 The cost of computing the photomosaic is proportional to the product of `comparison_x`, `comparison_y`, `grid_x`, `grid_y` and the number of images in `candidate_image_folder`. It is recommended to keep these parameters low.
 
-If the json is formatted correctly, then the folder `photomosaic_folder` will be created, and within it five subfolders will be created:
+If the json is formatted correctly, then the folder `photomosaic_folder` will be created, and within it six subfolders will be created:
 
 * `comparison_candidate_images`
 * `comparison_target_images`
+* `image_distances`
 * `output_candidate_images`
 * `output_layouts`
 * `output_images`
