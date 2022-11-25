@@ -53,7 +53,7 @@ class Photomosaic(object):
         # We iterate over each of the candidate images to update our photomosaic based on that image
         for imgname in sorted(self.comparison_candidate_images.keys()):
             # We calculate the image distance grid for that candidate image, update the output layout, and generate an output image
-            self.image_distance_grids[imgname] = CandidateImageDistanceGrid(self.comparison_candidate_images[imgname], self.comparison_target_images.values())
+            self.image_distance_grids[imgname] = CandidateImageDistanceGrid(self.comparison_candidate_images[imgname], self.input_parser.target_image_grid)
             self.image_distance_grids[imgname].calculate()
             self.output_layouts[imgname] = OutputLayout(self.image_distance_grids)
             self.output_layouts[imgname].calculate()
