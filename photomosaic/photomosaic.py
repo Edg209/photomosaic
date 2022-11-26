@@ -7,6 +7,10 @@ from photomosaic.output_image import OutputImage
 
 import skimage.io as si
 
+import logging
+
+logging.basicConfig(format='%(asctime)s [%(levelname)s] - $(message)s', level=logging.INFO)
+
 
 class Photomosaic(object):
     """
@@ -40,10 +44,12 @@ class Photomosaic(object):
 
     def generate(self):
         # We start by parsing the input
+        logging.info('Starting parsing')
         self.input_parser = InputParser(self._parameters)
         self.input_parser.parse()
         self.photomosaic_folder = self.input_parser.photomosaic_folder
         # We read each of the images using imread
+        logging.info('Starting image reading')
         comparison_candidate_images_folder = os.path.join(self.photomosaic_folder, 'comparison_candidate_images')
         comparison_target_images_folder = os.path.join(self.photomosaic_folder, 'comparison_target_images')
         output_candidate_images_folder = os.path.join(self.photomosaic_folder, 'output_candidate_images')
@@ -51,14 +57,19 @@ class Photomosaic(object):
         self.comparison_target_images = {imgname: si.imread(os.path.join(comparison_target_images_folder, imgname)) for imgname in os.listdir(comparison_target_images_folder)}
         self.output_candidate_images = {imgname: si.imread(os.path.join(output_candidate_images_folder, imgname)) for imgname in os.listdir(output_candidate_images_folder)}
         # We iterate over each of the candidate images to update our photomosaic based on that image
+        logging.info(f'Starting loop over candidate images, f{len(self.comparison_target_images)} items to loop over')
         for imgname in sorted(self.comparison_candidate_images.keys()):
+            logging.info(f'[{imgname}] Starting iteration')
             # We calculate the image distance grid for that candidate image, update the output layout, and generate an output image
+            logging.info(f'[{imgname}] Calculating image distance grid')
             self.image_distance_grids[imgname] = CandidateImageDistanceGrid(self.comparison_candidate_images[imgname], self.input_parser.target_image_grid)
             self.image_distance_grids[imgname].calculate()
             self.image_distance_grids[imgname].output_to_csv(os.path.join(self.photomosaic_folder, 'image_distances', imgname + '.csv'))
+            logging.info(f'[{imgname}] Calculating optimal output layout')
             self.output_layouts[imgname] = OutputLayout(self.image_distance_grids)
             self.output_layouts[imgname].calculate()
             self.output_layouts[imgname].output_to_csv(os.path.join(self.photomosaic_folder, 'output_layouts', imgname + '.csv'))
+            logging.info(f'[{imgname}] Generating output image')
             self.output_images[imgname] = OutputImage(self.output_layouts[imgname].image_grid, os.path.join(self.photomosaic_folder, 'output_candidate_images'))
             self.output_images[imgname].assemble()
             self.output_images[imgname].output_to_png(os.path.join(self.photomosaic_folder, 'output_images', imgname))
