@@ -7,9 +7,10 @@ here = pathlib.Path(__file__).parent.resolve()
 long_description = (here / "README.md").read_text(encoding="utf-8")
 
 setup(
-    name="example-photomosaic",
+    name="photomosaic",
     version="0.1.0",
     description="Python implementation of a photomosaic generator",
+    entry_points={'console_scripts': ['photomosaic = photomosaic.photomosaic:main']},
     classifiers=[  # Optional
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
