@@ -1,7 +1,7 @@
 import logging
 
 import numpy as np
-from exceptions import InvalidTypeException, InvalidShapeException
+from main.exceptions import InvalidTypeException, InvalidShapeException
 
 
 def image_distance(img1: np.ndarray, img2: np.ndarray) -> float:

@@ -7,17 +7,17 @@ here = pathlib.Path(__file__).parent.resolve()
 long_description = (here / "README.md").read_text(encoding="utf-8")
 
 setup(
-    name="photomosaic",
+    name="main",
     version="0.1.0",
-    description="Python implementation of a photomosaic generator",
-    entry_points={'console_scripts': ['photomosaic = photomosaic.photomosaic:main']},
+    description="Python implementation of a main generator",
+    entry_points={'console_scripts': ['main = main.main:main']},
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
         "Programming Language :: Python :: 3",
     ],
-    package_dir={"": "photomosaic"},
-    packages=find_packages(where="photomosaic"),
+    package_dir={"": "main"},
+    packages=find_packages(where="main"),
     python_requires=">=3, <4",
     install_requires=[],
 )
