@@ -48,7 +48,6 @@ class Photomosaic(object):
         self.image_distance_grids = {}
         self.output_layouts = {}
         self.output_images = {}
-        raise NotImplementedError
 
     def generate(self):
         # We start by parsing the input
