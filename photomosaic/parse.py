@@ -4,7 +4,7 @@ import shutil
 
 import numpy as np
 
-from photomosaic.exceptions import InvalidShapeException
+from exceptions import InvalidShapeException
 import skimage.io as si
 import skimage.transform as st
 import skimage.util as su
