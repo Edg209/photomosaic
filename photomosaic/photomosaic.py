@@ -1,10 +1,10 @@
 import argparse
 import os
 
-from photomosaic.parse import InputParser
-from photomosaic.image_distance import CandidateImageDistanceGrid
-from photomosaic.output_layout import OutputLayout
-from photomosaic.output_image import OutputImage
+from parse import InputParser
+from image_distance import CandidateImageDistanceGrid
+from output_layout import OutputLayout
+from output_image import OutputImage
 
 import skimage.io as si
 

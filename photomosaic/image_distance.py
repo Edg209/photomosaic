@@ -1,5 +1,5 @@
 import numpy as np
-from photomosaic.exceptions import InvalidTypeException, InvalidShapeException
+from exceptions import InvalidTypeException, InvalidShapeException
 
 
 def image_distance(img1: np.ndarray, img2: np.ndarray) -> float:

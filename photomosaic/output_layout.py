@@ -1,5 +1,5 @@
 import numpy as np
-from photomosaic.exceptions import InvalidShapeException
+from exceptions import InvalidShapeException
 
 
 class OutputLayout(object):
