@@ -31,8 +31,15 @@ class Photomosaic(object):
         generate: Populate each of the attributes and generate the photomosaic
     """
 
-    def __init__(self, parameters: str):
-        self._parameters = parameters
+    def __init__(self, parameters_json_path: str):
+        """
+        Create a photomosaic object.
+
+        For more details, see https://github.com/Edg209/photomosaic.
+
+        :param parameters_json_path: Path to the JSON file containing the parameters. For more details see https://github.com/Edg209/photomosaic/blob/main/overview.md.
+        """
+        self.parameters_json_path = parameters_json_path
         self.input_parser = None
         self.photomosaic_folder = None
         self.comparison_candidate_images = None
@@ -46,7 +53,7 @@ class Photomosaic(object):
     def generate(self):
         # We start by parsing the input
         logging.info('Starting parsing')
-        self.input_parser = InputParser(self._parameters)
+        self.input_parser = InputParser(self.parameters_json_path)
         self.input_parser.parse()
         self.photomosaic_folder = self.input_parser.photomosaic_folder
         # We read each of the images using imread
@@ -82,7 +89,7 @@ def main(parameters_json_path: str):
 
 
 if __name__ == '__main__':
-    arg_parser = argparse.ArgumentParser(description='Photomosaic generator. For more details, see https://github.com/Edg209/photomosaic')
-    arg_parser.add_argument('parameters_json_path', help='Path to a JSON file of parameters. For more details, see https://github.com/Edg209/photomosaic/blob/main/overview.md')
+    arg_parser = argparse.ArgumentParser(description='Photomosaic generator. For more details, see https://github.com/Edg209/photomosaic.')
+    arg_parser.add_argument('parameters_json_path', help='Path to a JSON file of parameters. For more details, see https://github.com/Edg209/photomosaic/blob/main/overview.md.')
     args = arg_parser.parse_args()
     main(args.parameters_json_path)
