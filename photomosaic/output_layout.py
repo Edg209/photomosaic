@@ -1,3 +1,5 @@
+import logging
+
 import numpy as np
 from exceptions import InvalidShapeException
 
@@ -22,6 +24,7 @@ class OutputLayout(object):
 
         :param image_distances: a dict where each key is the name of a candidate image and each value is a numpy.ndarray giving the image distance of the candidate at each location of the grid
         """
+        logging.info('Checking grid shape')
         # We determine the value of grid_shape and make sure it is consistent
         self.grid_shape = None
         for arr in image_distances.values():
@@ -34,15 +37,18 @@ class OutputLayout(object):
         self.image_grid = None
 
     def calculate(self):
+        logging.info('Calculating optimal distance grid')
         # We will loop over every image and choose it at a location if it has a smaller distance than any image chosen so far
         best_candidates = np.full(self.grid_shape, '', dtype=str)
         best_distances = np.full(self.grid_shape, 1000, dtype=float)  # The maximum of any distance is 255, so any calculated distance will be better than this
         for (candidate, distances) in self._image_distances.items():
+            logging.info(f'Considering candidate image {candidate}')
             improvement_mask = distances < best_distances
             best_candidates = np.where(improvement_mask, candidate, best_candidates)
             best_distances = np.where(improvement_mask, distances, best_distances)
         self.image_grid = best_candidates
         self.candidate_images = np.unique(best_candidates)
+        logging.info('Optimal distance grid calculated')
 
     def output_to_csv(self, filepath: str):
         np.savetxt(filepath, self.image_grid, delimiter=',')
