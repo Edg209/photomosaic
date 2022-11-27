@@ -5,8 +5,8 @@ import numpy as np
 import pytest
 import skimage.io as si
 
-from photomosaic.exceptions import InvalidShapeException
-from photomosaic.parse import InputParser
+from main.exceptions import InvalidShapeException
+from main.parse import InputParser
 
 
 @mock.patch('skimage.io.imsave')
@@ -72,7 +72,7 @@ class TestParse(TestCase):
             assert np.array_equal(imsave_calls[os.path.join(self.sample_parameters['photomosaic_folder'], 'output_candidate_images', '3x4_ffffff.png')], output_ffffff)
 
     def test_folder_already_exists(self, mocked_mkdir, mocked_copy, mocked_imsave):
-        """Test that if the photomosaic folder already exists the appropriate exception is raised"""
+        """Test that if the main folder already exists the appropriate exception is raised"""
         test_parameters = self.sample_parameters.copy()
         test_parameters['photomosaic_folder'] = os.path.join(self.test_dir, 'parse_test_candidates')
         mocked_json_load = mock.Mock(return_value=test_parameters)

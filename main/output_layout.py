@@ -1,7 +1,7 @@
 import logging
 
 import numpy as np
-from exceptions import InvalidShapeException
+from main.exceptions import InvalidShapeException
 
 
 class OutputLayout(object):

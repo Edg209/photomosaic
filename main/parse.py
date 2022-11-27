@@ -5,7 +5,7 @@ import shutil
 
 import numpy as np
 
-from exceptions import InvalidShapeException
+from main.exceptions import InvalidShapeException
 import skimage.io as si
 import skimage.transform as st
 import skimage.util as su
@@ -13,12 +13,12 @@ import skimage.util as su
 
 class InputParser(object):
     """
-    An object that represents the input to set up a photomosaic.
+    An object that represents the input to set up a main.
 
     Attributes:
-        photomosaic_folder: The folder that will be generated to contain all files related to this photomosaic
+        photomosaic_folder: The folder that will be generated to contain all files related to this main
         target_image: The path of the file containing the target image
-        candidate_image_folder: The folder that contains the candidate images to be used in the photomosaic
+        candidate_image_folder: The folder that contains the candidate images to be used in the main
         grid_shape: A tuple giving the x,y size of the grid of images
         output_shape: A tuple giving the x,y size of each of the candidate images
         comparison_shape: A tuple giving the x,y size of each of the comparison images
@@ -30,14 +30,14 @@ class InputParser(object):
 
     def __init__(self, parameters_json: str):
         """
-        Construct an InputParser to parse the inputs for a photomosaic and create the necessary files and folders.
+        Construct an InputParser to parse the inputs for a main and create the necessary files and folders.
 
-        :param parameters_json: A string giving the path to a json file that contains the parameters for the photomosaic
+        :param parameters_json: A string giving the path to a json file that contains the parameters for the main
         """
         logging.info(f'Starting load of parameters from {parameters_json}')
         parameters = json.load(parameters_json)
         logging.info('Checking file and folder structure')
-        # We test that the photomosaic folder does not exist
+        # We test that the main folder does not exist
         if os.path.isdir(parameters['photomosaic_folder']):
             raise FileExistsError
         self.photomosaic_folder = parameters['photomosaic_folder']
