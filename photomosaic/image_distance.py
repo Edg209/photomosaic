@@ -1,3 +1,5 @@
+import logging
+
 import numpy as np
 from exceptions import InvalidTypeException, InvalidShapeException
 
@@ -52,6 +54,7 @@ class CandidateImageDistanceGrid(object):
         :param candidate_image: a numpy.ndarray of shape (X,Y,3) where (X,Y) is the comparison shape and each entry has dtype uint8
         :param target_images: a numpy.ndarray of shape (A,B,X,Y,3) where (A,B) is the grid shape and each (X,Y,3) is a numpy.ndarray of the same shape and dtype as candidate_image
         """
+        logging.info('Checking shape and dtype of inputs')
         # Check that candidate_image is of the shape (X,Y,3)
         if len(candidate_image.shape) != 3:
             raise InvalidShapeException
@@ -76,6 +79,7 @@ class CandidateImageDistanceGrid(object):
         self._candidate_image = candidate_image
         self._target_images = target_images
         self.distance_grid = None
+        logging.info('Inputs correct')
 
     def calculate(self):
         distances = [[image_distance(self._candidate_image, cell) for cell in row] for row in self._target_images]
