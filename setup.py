@@ -7,11 +7,11 @@ here = pathlib.Path(__file__).parent.resolve()
 long_description = (here / "README.md").read_text(encoding="utf-8")
 
 setup(
-    # The prefix of "python-" is added to make this project name unique to existing projects
-    name="example-photomosaic",
+    name="photomosaic",
     version="0.1.0",
     description="Python implementation of a photomosaic generator",
-    classifiers=[  # Optional
+    entry_points={'console_scripts': ['photomosaic = photomosaic.photomosaic:main']},
+    classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
         "Programming Language :: Python :: 3",
