@@ -11,7 +11,7 @@ setup(
     version="0.1.0",
     description="Python implementation of a photomosaic generator",
     entry_points={'console_scripts': ['photomosaic = photomosaic.photomosaic:main']},
-    classifiers=[  # Optional
+    classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
         "Programming Language :: Python :: 3",
