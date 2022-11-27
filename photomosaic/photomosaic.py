@@ -1,3 +1,4 @@
+import argparse
 import os
 
 from photomosaic.parse import InputParser
@@ -73,3 +74,15 @@ class Photomosaic(object):
             self.output_images[imgname] = OutputImage(self.output_layouts[imgname].image_grid, os.path.join(self.photomosaic_folder, 'output_candidate_images'))
             self.output_images[imgname].assemble()
             self.output_images[imgname].output_to_png(os.path.join(self.photomosaic_folder, 'output_images', imgname))
+
+
+def main(parameters_json_path: str):
+    photomosaic = Photomosaic(parameters_json_path)
+    photomosaic.generate()
+
+
+if __name__ == '__main__':
+    arg_parser = argparse.ArgumentParser(description='Photomosaic generator. For more details, see https://github.com/Edg209/photomosaic')
+    arg_parser.add_argument('parameters_json_path', help='Path to a JSON file of parameters. For more details, see https://github.com/Edg209/photomosaic/blob/main/overview.md')
+    args = arg_parser.parse_args()
+    main(args.parameters_json_path)
