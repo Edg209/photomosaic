@@ -11,6 +11,15 @@ import skimage.transform as st
 import skimage.util as su
 
 
+def _read_json(parameters_json_path):
+    # This function is being mocked to ease unit testing.
+    # Having the open in a separate function allows us to mock just this function without having to mock open in general
+    # As open is used in several places (e.g. in imread), it is easier to isolate the open we want to mock with this function.
+    with open(parameters_json_path, 'r') as opened_json:
+        loaded_json = json.load(opened_json)
+    return loaded_json
+
+
 class InputParser(object):
     """
     An object that represents the input to set up a main.
@@ -35,7 +44,7 @@ class InputParser(object):
         :param parameters_json: A string giving the path to a json file that contains the parameters for the main
         """
         logging.info(f'Starting load of parameters from {parameters_json}')
-        parameters = json.load(parameters_json)
+        parameters = _read_json(parameters_json)
         logging.info('Checking file and folder structure')
         # We test that the main folder does not exist
         if os.path.isdir(parameters['photomosaic_folder']):

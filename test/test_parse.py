@@ -28,16 +28,16 @@ class TestParse(TestCase):
 
     def test_parse_correct(self, mocked_mkdir, mocked_copy, mocked_imsave):
         """Test that a correctly formatted input will set up the correct folder structure and populate them with the correct images"""
-        mocked_json_load = mock.Mock(return_value=self.sample_parameters)
+        mocked_json_read = mock.Mock(return_value=self.sample_parameters)
         pixel_000000 = np.array([[[0, 0, 0]]], dtype=np.uint8)
         pixel_ffffff = np.array([[[255, 255, 255]]], dtype=np.uint8)
         output_000000 = np.array([[[0, 0, 0] for y in range(6)] for x in range(8)])
         output_ffffff = np.array([[[255, 255, 255] for y in range(6)] for x in range(8)])
-        with mock.patch('json.load', mocked_json_load):
+        with mock.patch('main.parse._read_json', mocked_json_read):
             ip = InputParser('dummy_file_path')
             ip.parse()
             # Asserting that we attempt to read the JSON of parameters from the location given
-            mocked_json_load.assert_called_once_with('dummy_file_path')
+            mocked_json_read.assert_called_once_with('dummy_file_path')
             # Asserting that the folder structure is created
             mocked_mkdir.assert_any_call(self.sample_parameters['photomosaic_folder'])
             mocked_mkdir.assert_any_call(os.path.join(self.sample_parameters['photomosaic_folder'], 'comparison_candidate_images'))
@@ -75,8 +75,8 @@ class TestParse(TestCase):
         """Test that if the main folder already exists the appropriate exception is raised"""
         test_parameters = self.sample_parameters.copy()
         test_parameters['photomosaic_folder'] = os.path.join(self.test_dir, 'parse_test_candidates')
-        mocked_json_load = mock.Mock(return_value=test_parameters)
-        with mock.patch('json.load', mocked_json_load):
+        mocked_json_read = mock.Mock(return_value=test_parameters)
+        with mock.patch('main.parse._read_json', mocked_json_read):
             with pytest.raises(FileExistsError):
                 InputParser('dummy_file_path')
 
@@ -84,8 +84,8 @@ class TestParse(TestCase):
         """Test that if the target image does not exist the appropriate exception is raised"""
         test_parameters = self.sample_parameters.copy()
         test_parameters['target_image'] = os.path.join(self.test_dir, 'does_not_exist.png')
-        mocked_json_load = mock.Mock(return_value=test_parameters)
-        with mock.patch('json.load', mocked_json_load):
+        mocked_json_read = mock.Mock(return_value=test_parameters)
+        with mock.patch('main.parse._read_json', mocked_json_read):
             with pytest.raises(FileNotFoundError):
                 InputParser('dummy_file_path')
 
@@ -93,8 +93,8 @@ class TestParse(TestCase):
         """Test that if the candidate image folder does not exist the appropriate exception is raised"""
         test_parameters = self.sample_parameters.copy()
         test_parameters['candidate_image_folder'] = os.path.join(self.test_dir, 'does_not_exist')
-        mocked_json_load = mock.Mock(return_value=test_parameters)
-        with mock.patch('json.load', mocked_json_load):
+        mocked_json_read = mock.Mock(return_value=test_parameters)
+        with mock.patch('main.parse._read_json', mocked_json_read):
             with pytest.raises(FileNotFoundError):
                 InputParser('dummy_file_path')
 
@@ -102,14 +102,14 @@ class TestParse(TestCase):
         """Test that if the grid x and y dimensions are not positive integers the appropriate exception is raised"""
         test_parameters = self.sample_parameters.copy()
         test_parameters['grid_x'] = 1.5
-        mocked_json_load = mock.Mock(return_value=test_parameters)
-        with mock.patch('json.load', mocked_json_load):
+        mocked_json_read = mock.Mock(return_value=test_parameters)
+        with mock.patch('main.parse._read_json', mocked_json_read):
             with pytest.raises(InvalidShapeException):
                 InputParser('dummy_file_path')
         test_parameters = self.sample_parameters.copy()
         test_parameters['grid_x'] = -2
-        mocked_json_load = mock.Mock(return_value=test_parameters)
-        with mock.patch('json.load', mocked_json_load):
+        mocked_json_read = mock.Mock(return_value=test_parameters)
+        with mock.patch('main.parse._read_json', mocked_json_read):
             with pytest.raises(InvalidShapeException):
                 InputParser('dummy_file_path')
 
@@ -117,14 +117,14 @@ class TestParse(TestCase):
         """Test that if the output x and y dimensions are not positive integers the appropriate exception is raised"""
         test_parameters = self.sample_parameters.copy()
         test_parameters['output_y'] = 1.5
-        mocked_json_load = mock.Mock(return_value=test_parameters)
-        with mock.patch('json.load', mocked_json_load):
+        mocked_json_read = mock.Mock(return_value=test_parameters)
+        with mock.patch('main.parse._read_json', mocked_json_read):
             with pytest.raises(InvalidShapeException):
                 InputParser('dummy_file_path')
         test_parameters = self.sample_parameters.copy()
         test_parameters['output_y'] = -2
-        mocked_json_load = mock.Mock(return_value=test_parameters)
-        with mock.patch('json.load', mocked_json_load):
+        mocked_json_read = mock.Mock(return_value=test_parameters)
+        with mock.patch('main.parse._read_json', mocked_json_read):
             with pytest.raises(InvalidShapeException):
                 InputParser('dummy_file_path')
 
@@ -132,13 +132,13 @@ class TestParse(TestCase):
         """Test that if the comparison x and y dimensions are not positive integers the appropriate exception is raised"""
         test_parameters = self.sample_parameters.copy()
         test_parameters['comparison_x'] = 1.5
-        mocked_json_load = mock.Mock(return_value=test_parameters)
-        with mock.patch('json.load', mocked_json_load):
+        mocked_json_read = mock.Mock(return_value=test_parameters)
+        with mock.patch('main.parse._read_json', mocked_json_read):
             with pytest.raises(InvalidShapeException):
                 InputParser('dummy_file_path')
         test_parameters = self.sample_parameters.copy()
         test_parameters['comparison_x'] = -2
-        mocked_json_load = mock.Mock(return_value=test_parameters)
-        with mock.patch('json.load', mocked_json_load):
+        mocked_json_read = mock.Mock(return_value=test_parameters)
+        with mock.patch('main.parse._read_json', mocked_json_read):
             with pytest.raises(InvalidShapeException):
                 InputParser('dummy_file_path')
