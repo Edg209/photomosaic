@@ -9,8 +9,8 @@ long_description = (here / "README.md").read_text(encoding="utf-8")
 setup(
     name="main",
     version="0.1.0",
-    description="Python implementation of a main generator",
-    entry_points={'console_scripts': ['main = main.main:main']},
+    description="Python implementation of a photomosaic generator",
+    entry_points={'console_scripts': ['main = main.photomosaic:main']},
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
